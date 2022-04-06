@@ -1,5 +1,6 @@
 type HttpPostParams = {
   url: string;
+  body?: any;
 };
 
 interface HttpPostClient {

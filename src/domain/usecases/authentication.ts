@@ -9,5 +9,5 @@ interface Authentication {
   auth(params: AuthenticationParams): Promise<AccountModel>;
 }
 
-export { Authentication };
+export { Authentication, AuthenticationParams };
 
