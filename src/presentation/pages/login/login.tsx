@@ -1,4 +1,5 @@
 import { Footer, Input, LoginHeader, Spinner } from '@/presentation/components';
+import { FormStatus } from '@/presentation/components/form-status/form-status';
 import React from 'react';
 import styles from './login.module.scss';
 
@@ -21,10 +22,7 @@ const Login: React.FC = () => {
           Sign In
         </button>
         <span className={link}>sign up</span>
-        <div className={errorWrapper}>
-          <Spinner className={spinner} />
-          <span className={error}>Error</span>
-        </div>
+        <FormStatus />
       </form>
       <Footer />
     </div>
