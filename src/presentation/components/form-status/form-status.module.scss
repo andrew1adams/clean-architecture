@@ -1,4 +1,4 @@
-@import '@/presentation/styles/colors.scss';
+@import '@/presentation/styles/colors.module.scss';
 
 .errorWrapper {
   display: flex;
@@ -14,3 +14,4 @@
     color: $primaryLight;
   }
 }
+
