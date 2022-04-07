@@ -1,0 +1,31 @@
+@import '@/presentation/styles/colors.scss';
+
+.inputWrapper {
+  margin-top: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    flex-grow: 1;
+  }
+
+  .status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    right: 8px;
+    cursor: help;
+    background-color: #aaa;
+
+    &.error {
+      background-color: $error;
+    }
+
+    &.success {
+      background-color: $success;
+    }
+  }
+}
+
