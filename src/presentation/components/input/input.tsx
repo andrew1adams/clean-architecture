@@ -9,9 +9,13 @@ type Props = React.DetailedHTMLProps<
 >;
 
 const Input: React.FC<Props> = (props: Props) => {
+  const handleFocus = (ev: React.FocusEvent<HTMLInputElement>): void => {
+    ev.target.readOnly = false;
+  };
+
   return (
     <div className={inputWrapper}>
-      <input {...props} />
+      <input {...props} readOnly onFocus={handleFocus} />
       <span className={status} />
     </div>
   );
