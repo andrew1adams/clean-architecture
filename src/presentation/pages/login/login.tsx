@@ -1,29 +1,43 @@
-import { Footer, Input, LoginHeader, Spinner } from '@/presentation/components';
-import { FormStatus } from '@/presentation/components/form-status/form-status';
-import React from 'react';
+import {
+  Footer,
+  Input,
+  LoginHeader,
+  FormStatus,
+} from '@/presentation/components';
+import { LoginFormContext } from '@/presentation/contexts';
+import React, { useState } from 'react';
 import styles from './login.module.scss';
 
-const { login, form, submit, link, errorWrapper, error, spinner } = styles;
+const { login, form, submit, link } = styles;
+
+type StateProps = {
+  isLoading: boolean;
+  errorMessage: string;
+};
 
 const Login: React.FC = () => {
+  const [state] = useState<StateProps>({ isLoading: false, errorMessage: '' });
+
   return (
     <div className={login}>
       <LoginHeader />
-      <form className={form}>
-        <h2>Login</h2>
-        <Input name="email" type="email" placeholder="Insert your email" />
-        <Input
-          type="password"
-          name="password"
-          placeholder="Insert your password"
-        />
+      <LoginFormContext.Provider value={state}>
+        <form className={form}>
+          <h2>Login</h2>
+          <Input name="email" type="email" placeholder="Insert your email" />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Insert your password"
+          />
 
-        <button className={submit} type="submit">
-          Sign In
-        </button>
-        <span className={link}>sign up</span>
-        <FormStatus />
-      </form>
+          <button className={submit} type="submit">
+            Sign In
+          </button>
+          <span className={link}>sign up</span>
+          <FormStatus />
+        </form>
+      </LoginFormContext.Provider>
       <Footer />
     </div>
   );
