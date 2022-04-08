@@ -10,13 +10,13 @@ import styles from './login.module.scss';
 
 const { login, form, submit, link } = styles;
 
-type StateProps = {
-  isLoading: boolean;
-  errorMessage: string;
-};
-
 const Login: React.FC = () => {
-  const [state] = useState<StateProps>({ isLoading: false, errorMessage: '' });
+  const [state] = useState({
+    isLoading: false,
+    errorMessage: '',
+    emailError: 'Required Field',
+    passwordError: 'Required Field',
+  });
 
   return (
     <div className={login}>
