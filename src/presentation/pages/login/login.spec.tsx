@@ -81,5 +81,18 @@ describe('Login', () => {
     expect(emailStatus.title).toBe('Filled in Correctly');
     expect(emailStatus.className).toContain('success');
   });
+
+  test('Should show valid password state if Validation succeeds', () => {
+    const { sut, validationStub } = SystemUnderTestCreator();
+    validationStub.errorMessage = null;
+    const passwordInput = sut.getByTestId('password-input');
+    fireEvent.input(passwordInput, {
+      target: { value: faker.internet.password() },
+    });
+
+    const passwordStatus = sut.getByTestId('password-status');
+    expect(passwordStatus.title).toBe('Filled in Correctly');
+    expect(passwordStatus.className).toContain('success');
+  });
 });
 
