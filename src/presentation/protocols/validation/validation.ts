@@ -1,5 +1,5 @@
 interface Validation {
-  validate(input: object): string;
+  validate(field: string, value: string): string;
 }
 
 export { Validation };
