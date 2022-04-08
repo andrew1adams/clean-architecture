@@ -2,7 +2,7 @@ import { LoginFormContext } from '@/presentation/contexts';
 import React, { useContext } from 'react';
 import Styles from './input.module.scss';
 
-const { inputWrapper, status } = Styles;
+const { inputWrapper, status, error, success } = Styles;
 
 type Props = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -25,9 +25,10 @@ const Input: React.FC<Props> = (props: Props) => {
     });
   };
 
-  const getStatus = (): string => `${status} error`;
+  const getStatus = (): string =>
+    errorStatus ? `${status} error` : `${status} success`;
 
-  const getTitle = (): string => errorStatus;
+  const getTitle = (): string => errorStatus || 'Filled in Correctly';
 
   return (
     <div className={inputWrapper}>
