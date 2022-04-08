@@ -10,11 +10,19 @@ type Props = React.DetailedHTMLProps<
 >;
 
 const Input: React.FC<Props> = (props: Props) => {
-  const state = useContext(LoginFormContext);
+  const { state, setState } = useContext(LoginFormContext);
   const errorStatus = state[`${props.name}Error`];
 
   const handleFocus = (ev: React.FocusEvent<HTMLInputElement>): void => {
     ev.target.readOnly = false;
+  };
+
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value, name } = ev.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
   };
 
   const getStatus = (): string => `${status} error`;
@@ -28,6 +36,7 @@ const Input: React.FC<Props> = (props: Props) => {
         {...props}
         readOnly
         onFocus={handleFocus}
+        onChange={handleChange}
       />
       <span
         title={getTitle()}

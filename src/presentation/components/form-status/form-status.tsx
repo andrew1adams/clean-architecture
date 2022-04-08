@@ -6,7 +6,9 @@ import { LoginFormContext } from '@/presentation/contexts';
 const { errorWrapper, spinnerWrapper, error } = Styles;
 
 const FormStatus: React.FC = () => {
-  const { isLoading, errorMessage } = useContext(LoginFormContext);
+  const {
+    state: { isLoading, errorMessage },
+  } = useContext(LoginFormContext);
 
   return (
     <div data-testid="error-wrapper" className={errorWrapper}>
