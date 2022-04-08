@@ -3,10 +3,14 @@ import { Login } from '@/presentation/pages';
 import { render } from '@testing-library/react';
 
 describe('Login', () => {
-  it('Should not render spinner and error on start', () => {
+  it('Should start with initial state', () => {
     const { getByTestId } = render(<Login />);
+
     const errorWrapper = getByTestId('error-wrapper');
     expect(errorWrapper.childElementCount).toBe(0);
+
+    const submitBtn = getByTestId('submit-btn') as HTMLButtonElement;
+    expect(submitBtn.disabled).toBe(true);
   });
 });
 
