@@ -6,24 +6,12 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
-import { Validation } from '@/presentation/protocols';
+import { ValidationSpy } from '@/presentation/test';
 
 type SutTypes = {
   sut: RenderResult;
   validationSpy: ValidationSpy;
 };
-
-class ValidationSpy implements Validation {
-  errorMessage: string;
-  field: string;
-  value: string;
-
-  validate(field: string, value: string): string {
-    this.field = field;
-    this.value = value;
-    return this.errorMessage;
-  }
-}
 
 const SystemUnderTestCreator = (): SutTypes => {
   const validationSpy = new ValidationSpy();
