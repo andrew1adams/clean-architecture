@@ -7,6 +7,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 import { ValidationSpy } from '@/presentation/test';
+import faker from 'faker';
 
 type SutTypes = {
   sut: RenderResult;
@@ -45,19 +46,21 @@ describe('Login', () => {
 
   test('Should call Validation with correct email', () => {
     const { sut, validationSpy } = SystemUnderTestCreator();
+    const email = faker.internet.email();
 
     const emailInput = sut.getByTestId('email-input');
-    fireEvent.input(emailInput, { target: { value: 'any_email' } });
+    fireEvent.input(emailInput, { target: { value: email } });
     expect(validationSpy.field).toEqual('email');
-    expect(validationSpy.value).toEqual('any_email');
+    expect(validationSpy.value).toEqual(email);
   });
   test('Should call Validation with correct email', () => {
     const { sut, validationSpy } = SystemUnderTestCreator();
+    const password = faker.internet.password();
 
     const passWordInput = sut.getByTestId('password-input');
-    fireEvent.input(passWordInput, { target: { value: 'any_password' } });
+    fireEvent.input(passWordInput, { target: { value: password } });
     expect(validationSpy.field).toEqual('password');
-    expect(validationSpy.value).toEqual('any_password');
+    expect(validationSpy.value).toEqual(password);
   });
 });
 
