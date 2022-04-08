@@ -53,12 +53,19 @@ describe('Login', () => {
     expect(passwordStatus.className).toContain('error');
   });
 
-  test('Should call Validation with correct values', () => {
+  test('Should call Validation with correct email', () => {
     const { sut, validationSpy } = SystemUnderTestCreator();
 
     const emailInput = sut.getByTestId('email-input');
     fireEvent.input(emailInput, { target: { value: 'any_email' } });
     expect(validationSpy.input).toEqual({ email: 'any_email' });
+  });
+  test('Should call Validation with correct email', () => {
+    const { sut, validationSpy } = SystemUnderTestCreator();
+
+    const passWordInput = sut.getByTestId('password-input');
+    fireEvent.input(passWordInput, { target: { value: 'any_password' } });
+    expect(validationSpy.input).toEqual({ password: 'any_password' });
   });
 });
 
