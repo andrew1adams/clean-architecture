@@ -94,5 +94,21 @@ describe('Login', () => {
     expect(passwordStatus.title).toBe('Filled in Correctly');
     expect(passwordStatus.className).toContain('success');
   });
+
+  test('Should enable submit button if form is valid', () => {
+    const { sut, validationStub } = SystemUnderTestCreator();
+    validationStub.errorMessage = null;
+
+    const emailInput = sut.getByTestId('email-input');
+    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+
+    const passwordInput = sut.getByTestId('password-input');
+    fireEvent.input(passwordInput, {
+      target: { value: faker.internet.password() },
+    });
+
+    const submitBtn = sut.getByTestId('submit-btn') as HTMLButtonElement;
+    expect(submitBtn.disabled).toBe(false);
+  });
 });
 
