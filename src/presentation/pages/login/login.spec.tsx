@@ -37,6 +37,46 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   };
 };
 
+const simulateValidSubmit = (
+  sut: RenderResult,
+  email: string = faker.internet.email(),
+  password: string = faker.internet.password()
+): void => {
+  populateEmailField(sut, email);
+  populatePasswordField(sut, password);
+
+  const submitBtn = sut.getByTestId('submit-btn');
+  fireEvent.click(submitBtn);
+};
+
+const populateEmailField = (
+  sut: RenderResult,
+  email: string = faker.internet.email()
+): void => {
+  const emailInput = sut.getByTestId('email-input');
+  fireEvent.input(emailInput, { target: { value: email } });
+};
+
+const populatePasswordField = (
+  sut: RenderResult,
+  password: string = faker.internet.password()
+): void => {
+  const passwordInput = sut.getByTestId('password-input');
+  fireEvent.input(passwordInput, { target: { value: password } });
+};
+
+const testStatusField = (
+  sut: RenderResult,
+  fieldName: string,
+  validationError?: string
+): void => {
+  const inputStatus = sut.getByTestId(`${fieldName}-status`);
+  expect(inputStatus.title).toBe(validationError || 'Filled in Correctly');
+  expect(inputStatus.className).toContain(
+    validationError ? 'error' : 'success'
+  );
+};
+
 describe('Login', () => {
   afterEach(cleanup);
 
@@ -50,73 +90,46 @@ describe('Login', () => {
     const submitBtn = sut.getByTestId('submit-btn') as HTMLButtonElement;
     expect(submitBtn.disabled).toBe(true);
 
-    const emailStatus = sut.getByTestId('email-status');
-    expect(emailStatus.title).toBe(validationError);
-    expect(emailStatus.className).toContain('error');
-
-    const passwordStatus = sut.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(validationError);
-    expect(passwordStatus.className).toContain('error');
+    testStatusField(sut, 'email', validationError);
+    testStatusField(sut, 'password', validationError);
   });
 
   test('Should show email error if Validation fails', () => {
     const validationError = faker.random.words();
     const { sut } = SystemUnderTestCreator({ validationError });
 
-    const emailInput = sut.getByTestId('email-input');
-    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
-
-    const emailStatus = sut.getByTestId('email-status');
-    expect(emailStatus.title).toBe(validationError);
-    expect(emailStatus.className).toContain('error');
+    populateEmailField(sut);
+    testStatusField(sut, 'email', validationError);
   });
 
   test('Should show password error if Validation fails', () => {
     const validationError = faker.random.words();
     const { sut } = SystemUnderTestCreator({ validationError });
 
-    const passwordInput = sut.getByTestId('password-input');
-    fireEvent.input(passwordInput, {
-      target: { value: faker.internet.password() },
-    });
+    populatePasswordField(sut);
 
-    const passwordStatus = sut.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(validationError);
-    expect(passwordStatus.className).toContain('error');
+    testStatusField(sut, 'password', validationError);
   });
 
   test('Should show valid email state if Validation succeeds', () => {
     const { sut } = SystemUnderTestCreator();
-    const emailInput = sut.getByTestId('email-input');
-    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+    populateEmailField(sut);
 
-    const emailStatus = sut.getByTestId('email-status');
-    expect(emailStatus.title).toBe('Filled in Correctly');
-    expect(emailStatus.className).toContain('success');
+    testStatusField(sut, 'email');
   });
 
   test('Should show valid password state if Validation succeeds', () => {
     const { sut } = SystemUnderTestCreator();
-    const passwordInput = sut.getByTestId('password-input');
-    fireEvent.input(passwordInput, {
-      target: { value: faker.internet.password() },
-    });
+    populatePasswordField(sut);
 
-    const passwordStatus = sut.getByTestId('password-status');
-    expect(passwordStatus.title).toBe('Filled in Correctly');
-    expect(passwordStatus.className).toContain('success');
+    testStatusField(sut, 'password');
   });
 
   test('Should enable submit button if form is valid', () => {
     const { sut } = SystemUnderTestCreator();
 
-    const emailInput = sut.getByTestId('email-input');
-    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
-
-    const passwordInput = sut.getByTestId('password-input');
-    fireEvent.input(passwordInput, {
-      target: { value: faker.internet.password() },
-    });
+    populateEmailField(sut);
+    populatePasswordField(sut);
 
     const submitBtn = sut.getByTestId('submit-btn') as HTMLButtonElement;
     expect(submitBtn.disabled).toBe(false);
@@ -125,16 +138,7 @@ describe('Login', () => {
   test('Should show spinner on submit', () => {
     const { sut } = SystemUnderTestCreator();
 
-    const emailInput = sut.getByTestId('email-input');
-    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
-
-    const passwordInput = sut.getByTestId('password-input');
-    fireEvent.input(passwordInput, {
-      target: { value: faker.internet.password() },
-    });
-
-    const submitBtn = sut.getByTestId('submit-btn');
-    fireEvent.click(submitBtn);
+    simulateValidSubmit(sut);
 
     const spinner = sut.getAllByTestId('spinner');
     expect(spinner).toBeTruthy();
@@ -142,19 +146,10 @@ describe('Login', () => {
 
   test('Should call Authentication with correct values', () => {
     const { sut, authenticationSpy } = SystemUnderTestCreator();
-
-    const emailInput = sut.getByTestId('email-input');
     const email = faker.internet.email();
-    fireEvent.input(emailInput, { target: { value: email } });
-
-    const passwordInput = sut.getByTestId('password-input');
     const password = faker.internet.password();
-    fireEvent.input(passwordInput, {
-      target: { value: password },
-    });
 
-    const submitBtn = sut.getByTestId('submit-btn');
-    fireEvent.click(submitBtn);
+    simulateValidSubmit(sut, email, password);
 
     expect(authenticationSpy.params).toEqual({
       email,
