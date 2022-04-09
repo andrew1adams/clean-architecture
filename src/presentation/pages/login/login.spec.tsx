@@ -8,10 +8,24 @@ import {
 } from '@testing-library/react';
 import { ValidationStub } from '@/presentation/test';
 import faker from 'faker';
+import { Authentication, AuthenticationParams } from '@/domain/usecases';
+import { AccountModel } from '@/domain/models';
+import { mockAccountModel } from '@/domain/test';
+
+class AuthenticationSpy implements Authentication {
+  account = mockAccountModel();
+  params: AuthenticationParams;
+
+  auth(params: AuthenticationParams): Promise<AccountModel> {
+    this.params = params;
+    return Promise.resolve(this.account);
+  }
+}
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
+  authenticationSpy: AuthenticationSpy;
 };
 
 type SutParams = {
@@ -22,11 +36,16 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError;
 
-  const sut = render(<Login validation={validationStub} />);
+  const authenticationSpy = new AuthenticationSpy();
+
+  const sut = render(
+    <Login validation={validationStub} authentication={authenticationSpy} />
+  );
 
   return {
     sut,
     validationStub,
+    authenticationSpy,
   };
 };
 
@@ -131,6 +150,28 @@ describe('Login', () => {
 
     const spinner = sut.getAllByTestId('spinner');
     expect(spinner).toBeTruthy();
+  });
+
+  test('Should call Authentication with correct values', () => {
+    const { sut, authenticationSpy } = SystemUnderTestCreator();
+
+    const emailInput = sut.getByTestId('email-input');
+    const email = faker.internet.email();
+    fireEvent.input(emailInput, { target: { value: email } });
+
+    const passwordInput = sut.getByTestId('password-input');
+    const password = faker.internet.password();
+    fireEvent.input(passwordInput, {
+      target: { value: password },
+    });
+
+    const submitBtn = sut.getByTestId('submit-btn');
+    fireEvent.click(submitBtn);
+
+    expect(authenticationSpy.params).toEqual({
+      email,
+      password,
+    });
   });
 });
 
