@@ -14,9 +14,13 @@ type SutTypes = {
   validationStub: ValidationStub;
 };
 
-const SystemUnderTestCreator = (): SutTypes => {
+type SutParams = {
+  validationError: string;
+};
+
+const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
-  validationStub.errorMessage = faker.random.words();
+  validationStub.errorMessage = params?.validationError;
 
   const sut = render(<Login validation={validationStub} />);
 
@@ -30,7 +34,8 @@ describe('Login', () => {
   afterEach(cleanup);
 
   test('Should start with initial state', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
+    const validationError = faker.random.words();
+    const { sut } = SystemUnderTestCreator({ validationError });
 
     const errorWrapper = sut.getByTestId('error-wrapper');
     expect(errorWrapper.childElementCount).toBe(0);
@@ -39,27 +44,29 @@ describe('Login', () => {
     expect(submitBtn.disabled).toBe(true);
 
     const emailStatus = sut.getByTestId('email-status');
-    expect(emailStatus.title).toBe(validationStub.errorMessage);
+    expect(emailStatus.title).toBe(validationError);
     expect(emailStatus.className).toContain('error');
 
     const passwordStatus = sut.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(validationStub.errorMessage);
+    expect(passwordStatus.title).toBe(validationError);
     expect(passwordStatus.className).toContain('error');
   });
 
   test('Should show email error if Validation fails', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
+    const validationError = faker.random.words();
+    const { sut } = SystemUnderTestCreator({ validationError });
 
     const emailInput = sut.getByTestId('email-input');
     fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
 
     const emailStatus = sut.getByTestId('email-status');
-    expect(emailStatus.title).toBe(validationStub.errorMessage);
+    expect(emailStatus.title).toBe(validationError);
     expect(emailStatus.className).toContain('error');
   });
 
   test('Should show password error if Validation fails', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
+    const validationError = faker.random.words();
+    const { sut } = SystemUnderTestCreator({ validationError });
 
     const passwordInput = sut.getByTestId('password-input');
     fireEvent.input(passwordInput, {
@@ -67,13 +74,12 @@ describe('Login', () => {
     });
 
     const passwordStatus = sut.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(validationStub.errorMessage);
+    expect(passwordStatus.title).toBe(validationError);
     expect(passwordStatus.className).toContain('error');
   });
 
   test('Should show valid email state if Validation succeeds', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
-    validationStub.errorMessage = null;
+    const { sut } = SystemUnderTestCreator();
     const emailInput = sut.getByTestId('email-input');
     fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
 
@@ -83,8 +89,7 @@ describe('Login', () => {
   });
 
   test('Should show valid password state if Validation succeeds', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
-    validationStub.errorMessage = null;
+    const { sut } = SystemUnderTestCreator();
     const passwordInput = sut.getByTestId('password-input');
     fireEvent.input(passwordInput, {
       target: { value: faker.internet.password() },
@@ -96,8 +101,7 @@ describe('Login', () => {
   });
 
   test('Should enable submit button if form is valid', () => {
-    const { sut, validationStub } = SystemUnderTestCreator();
-    validationStub.errorMessage = null;
+    const { sut } = SystemUnderTestCreator();
 
     const emailInput = sut.getByTestId('email-input');
     fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
