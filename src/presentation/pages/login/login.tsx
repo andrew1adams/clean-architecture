@@ -43,7 +43,7 @@ const Login: React.FC<LoginProps> = ({
   ): Promise<void> => {
     event.preventDefault();
 
-    if (state.isLoading) return;
+    if (state.isLoading || state.emailError || state.passwordError) return;
 
     setState({
       ...state,
@@ -56,7 +56,7 @@ const Login: React.FC<LoginProps> = ({
     <div className={login}>
       <LoginHeader />
       <LoginFormContext.Provider value={{ state, setState }}>
-        <form className={form} onSubmit={handleSubmit}>
+        <form data-testid="login-form" className={form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input name="email" type="email" placeholder="Insert your email" />
           <Input
