@@ -156,5 +156,14 @@ describe('Login', () => {
       password,
     });
   });
+
+  test('Should call Authentication only once', () => {
+    const { sut, authenticationSpy } = SystemUnderTestCreator();
+
+    simulateValidSubmit(sut);
+    simulateValidSubmit(sut);
+
+    expect(authenticationSpy.callsCount).toBe(1);
+  });
 });
 
