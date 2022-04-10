@@ -51,10 +51,12 @@ const Login: React.FC<LoginProps> = ({
         isLoading: true,
       });
 
-      await authentication.auth({
+      const account = await authentication.auth({
         email: state.email,
         password: state.password,
       });
+
+      localStorage.setItem('accessToken', account.accessToken);
     } catch (err) {
       setState({
         ...state,
