@@ -5,10 +5,12 @@ import {
   RenderResult,
   cleanup,
   fireEvent,
+  waitFor,
 } from '@testing-library/react';
 import { ValidationStub } from '@/presentation/test';
 import faker from 'faker';
 import { AuthenticationSpy } from '@/presentation/test';
+import { InvalidCredentialsError } from '@/domain/error';
 
 type SutTypes = {
   sut: RenderResult;
@@ -177,6 +179,24 @@ describe('Login', () => {
     fireEvent.submit(sut.getByTestId('login-form'));
 
     expect(authenticationSpy.callsCount).toBe(0);
+  });
+
+  test('Should present error if Authentication fails', async () => {
+    const { sut, authenticationSpy } = SystemUnderTestCreator();
+    const error = new InvalidCredentialsError();
+    jest
+      .spyOn(authenticationSpy, 'auth')
+      .mockReturnValueOnce(Promise.reject(error));
+
+    simulateValidSubmit(sut);
+
+    const errorWrapper = sut.getByTestId('error-wrapper');
+    expect(errorWrapper.childElementCount).toBe(1);
+
+    await waitFor(() => {
+      const mainError = sut.getByTestId('main-error');
+      expect(mainError.textContent).toBe(error.message);
+    });
   });
 });
 
