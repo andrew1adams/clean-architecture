@@ -19,5 +19,12 @@ describe('Email Validation', () => {
 
     expect(error).toBeFalsy();
   });
+
+  test('Should return falsy if email is empty', () => {
+    const sut = SystemUnderTestCreator();
+    const error = sut.validate('');
+
+    expect(error).toBeFalsy();
+  });
 });
 
