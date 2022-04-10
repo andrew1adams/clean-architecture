@@ -221,6 +221,8 @@ describe('Login', () => {
         authenticationSpy.account.accessToken
       );
     });
+
+    expect(history.location.pathname).toBe('/');
   });
 
   test('Should go to sign up page', async () => {
