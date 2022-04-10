@@ -86,6 +86,34 @@ const testStatusField = (
   );
 };
 
+const testErrorWrapperChildCount = (sut: RenderResult, count: number): void => {
+  const errorWrapper = sut.getByTestId('error-wrapper');
+  expect(errorWrapper.childElementCount).toBe(count);
+};
+
+const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
+  const element = sut.getByTestId(testId);
+  expect(element).toBeTruthy();
+};
+
+const testElementTextToBeCompared = (
+  sut: RenderResult,
+  testId: string,
+  text: string
+): void => {
+  const element = sut.getByTestId(testId);
+  expect(element.textContent).toBe(text);
+};
+
+const testButtonIsDisabled = (
+  sut: RenderResult,
+  testId: string,
+  isDisabled: boolean
+): void => {
+  const btn = sut.getByTestId(testId) as HTMLButtonElement;
+  expect(btn.disabled).toBe(isDisabled);
+};
+
 describe('Login', () => {
   afterEach(cleanup);
 
@@ -97,12 +125,8 @@ describe('Login', () => {
     const validationError = faker.random.words();
     const { sut } = SystemUnderTestCreator({ validationError });
 
-    const errorWrapper = sut.getByTestId('error-wrapper');
-    expect(errorWrapper.childElementCount).toBe(0);
-
-    const submitBtn = sut.getByTestId('submit-btn') as HTMLButtonElement;
-    expect(submitBtn.disabled).toBe(true);
-
+    testErrorWrapperChildCount(sut, 0);
+    testButtonIsDisabled(sut, 'submit-btn', true);
     testStatusField(sut, 'email', validationError);
     testStatusField(sut, 'password', validationError);
   });
@@ -143,18 +167,14 @@ describe('Login', () => {
 
     populateEmailField(sut);
     populatePasswordField(sut);
-
-    const submitBtn = sut.getByTestId('submit-btn') as HTMLButtonElement;
-    expect(submitBtn.disabled).toBe(false);
+    testButtonIsDisabled(sut, 'submit-btn', false);
   });
 
   test('Should show spinner on submit', () => {
     const { sut } = SystemUnderTestCreator();
 
     simulateValidSubmit(sut);
-
-    const spinner = sut.getAllByTestId('spinner');
-    expect(spinner).toBeTruthy();
+    testElementAlreadyExists(sut, 'spinner');
   });
 
   test('Should call Authentication with correct values', () => {
@@ -201,13 +221,11 @@ describe('Login', () => {
 
     simulateValidSubmit(sut);
 
-    const errorWrapper = sut.getByTestId('error-wrapper');
-    expect(errorWrapper.childElementCount).toBe(1);
+    testErrorWrapperChildCount(sut, 1);
 
-    await waitFor(() => {
-      const mainError = sut.getByTestId('main-error');
-      expect(mainError.textContent).toBe(error.message);
-    });
+    await waitFor(() =>
+      testElementTextToBeCompared(sut, 'main-error', error.message)
+    );
   });
 
   test('Should add accessToken to localStorage on success', async () => {
@@ -225,7 +243,7 @@ describe('Login', () => {
     expect(history.location.pathname).toBe('/');
   });
 
-  test('Should go to sign up page', async () => {
+  test('Should go to sign up page', () => {
     const { sut } = SystemUnderTestCreator();
 
     const signUp = sut.getByTestId('sign-up-route');
