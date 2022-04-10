@@ -8,6 +8,7 @@ import {
 import { LoginFormContext } from '@/presentation/contexts';
 import { Validation } from '@/presentation/protocols';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './login.module.scss';
 
 const { login, form, submit, link } = styles;
@@ -87,7 +88,9 @@ const Login: React.FC<LoginProps> = ({
           >
             Sign In
           </button>
-          <span className={link}>sign up</span>
+          <Link data-testid="sign-up-route" to="/sign-up" className={link}>
+            sign up
+          </Link>
           <FormStatus />
         </form>
       </LoginFormContext.Provider>
