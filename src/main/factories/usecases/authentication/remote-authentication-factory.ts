@@ -3,7 +3,7 @@ import { Authentication } from '@/domain/usecases';
 import { AxiosHttpClientCreator, ApiURLCreator } from '@/main/factories';
 
 const RemoteAuthenticationCreator = (): Authentication =>
-  new RemoteAuthentication(ApiURLCreator(), AxiosHttpClientCreator());
+  new RemoteAuthentication(ApiURLCreator('/login'), AxiosHttpClientCreator());
 
 export { RemoteAuthenticationCreator };
 

@@ -1,4 +1,5 @@
-const ApiURLCreator = (): string => 'http://fordevs.herokuapp.com/api/login';
+const ApiURLCreator = (path: string): string =>
+  `http://fordevs.herokuapp.com/api${path}`;
 
 export { ApiURLCreator };
 
