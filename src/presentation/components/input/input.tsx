@@ -26,7 +26,7 @@ const Input: React.FC<Props> = (props: Props) => {
   };
 
   const getStatus = (): string =>
-    errorStatus ? `${status} error` : `${status} success`;
+    errorStatus ? `${status} ${error}` : `${status} ${success}`;
 
   const getTitle = (): string => errorStatus || 'Filled in Correctly';
 
