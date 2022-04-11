@@ -3,10 +3,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Login } from '@/presentation/pages';
 import '@/presentation/styles/global.module.scss';
 
-const Router: React.FC = () => (
+type MainRouterProps = {
+  login: React.ReactElement;
+};
+
+const Router: React.FC<MainRouterProps> = ({ login }: MainRouterProps) => (
   <BrowserRouter>
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={login} />
     </Routes>
   </BrowserRouter>
 );
