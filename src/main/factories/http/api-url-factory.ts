@@ -1,5 +1,5 @@
 const ApiURLCreator = (path: string): string =>
-  `http://fordevs.herokuapp.com/api${path}`;
+  `${process.env.REACT_APP_API_URL}${path}`;
 
 export { ApiURLCreator };
 
