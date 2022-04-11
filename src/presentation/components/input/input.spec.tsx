@@ -1,17 +1,20 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { Input } from '@/presentation/components';
 import { LoginFormContext } from '@/presentation/contexts';
 
+const SystemUnderTestCreator = (): RenderResult =>
+  render(
+    <LoginFormContext.Provider value={{ state: {} }}>
+      <Input name="field" />
+    </LoginFormContext.Provider>
+  );
+
 describe('Input Component', () => {
   test('Should begin with readonly', () => {
-    const { getByTestId } = render(
-      <LoginFormContext.Provider value={{ state: {} }}>
-        <Input name="field" />
-      </LoginFormContext.Provider>
-    );
+    const sut = SystemUnderTestCreator();
 
-    const input = getByTestId('field-input') as HTMLInputElement;
+    const input = sut.getByTestId('field-input') as HTMLInputElement;
     expect(input.readOnly).toBe(true);
   });
 });
