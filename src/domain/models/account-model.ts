@@ -1,6 +1,5 @@
 type AccountModel = {
-  accessToken: string;
-};
+  accessToken: string
+}
 
-export { AccountModel };
-
+export { AccountModel }

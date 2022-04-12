@@ -1,9 +1,8 @@
-import { RemoteAuthentication } from '@/data/usecases';
-import { Authentication } from '@/domain/usecases';
-import { AxiosHttpClientCreator, ApiURLCreator } from '@/main/factories';
+import { RemoteAuthentication } from '@/data/usecases'
+import { Authentication } from '@/domain/usecases'
+import { AxiosHttpClientCreator, ApiURLCreator } from '@/main/factories'
 
 const RemoteAuthenticationCreator = (): Authentication =>
-  new RemoteAuthentication(ApiURLCreator('/login'), AxiosHttpClientCreator());
+  new RemoteAuthentication(ApiURLCreator('/login'), AxiosHttpClientCreator())
 
-export { RemoteAuthenticationCreator };
-
+export { RemoteAuthenticationCreator }

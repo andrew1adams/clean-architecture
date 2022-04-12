@@ -1,6 +1,5 @@
 interface Validation {
-  validate(field: string, value: string): string;
+  validate: (field: string, value: string) => string
 }
 
-export { Validation };
-
+export { Validation }

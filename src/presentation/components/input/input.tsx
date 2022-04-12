@@ -1,34 +1,34 @@
-import { LoginFormContext } from '@/presentation/contexts';
-import React, { useContext } from 'react';
-import Styles from './input.module.scss';
+import { LoginFormContext } from '@/presentation/contexts'
+import React, { useContext } from 'react'
+import Styles from './input.module.scss'
 
-const { inputWrapper, status, error, success } = Styles;
+const { inputWrapper, status, error, success } = Styles
 
 type Props = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
+React.InputHTMLAttributes<HTMLInputElement>,
+HTMLInputElement
+>
 
 const Input: React.FC<Props> = (props: Props) => {
-  const { state, setState } = useContext(LoginFormContext);
-  const errorStatus = state[`${props.name}Error`];
+  const { state, setState } = useContext(LoginFormContext)
+  const errorStatus = state[`${props.name}Error`]
 
   const handleFocus = (ev: React.FocusEvent<HTMLInputElement>): void => {
-    ev.target.readOnly = false;
-  };
+    ev.target.readOnly = false
+  }
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value, name } = ev.target;
+    const { value, name } = ev.target
     setState({
       ...state,
-      [name]: value,
-    });
-  };
+      [name]: value
+    })
+  }
 
   const getStatus = (): string =>
-    errorStatus ? `${status} ${error}` : `${status} ${success}`;
+    errorStatus ? `${status} ${error}` : `${status} ${success}`
 
-  const getTitle = (): string => errorStatus || 'Filled in Correctly';
+  const getTitle = (): string => errorStatus || 'Filled in Correctly'
 
   return (
     <div className={inputWrapper}>
@@ -45,8 +45,7 @@ const Input: React.FC<Props> = (props: Props) => {
         className={getStatus()}
       />
     </div>
-  );
-};
+  )
+}
 
-export { Input };
-
+export { Input }

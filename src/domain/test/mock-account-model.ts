@@ -1,9 +1,8 @@
-import { AccountModel } from '@/domain/models';
-import faker from 'faker';
+import { AccountModel } from '@/domain/models'
+import faker from 'faker'
 
 const mockAccountModel = (): AccountModel => ({
-  accessToken: faker.random.uuid(),
-});
+  accessToken: faker.datatype.uuid()
+})
 
-export { mockAccountModel };
-
+export { mockAccountModel }

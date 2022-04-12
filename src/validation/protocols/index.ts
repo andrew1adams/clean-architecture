@@ -1,2 +1,1 @@
-export * from './field-validation';
-
+export * from './field-validation'

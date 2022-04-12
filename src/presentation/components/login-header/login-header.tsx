@@ -1,17 +1,14 @@
-import React, { memo } from 'react';
-import { Logo } from '@/presentation/components';
-import Styles from './login-header.module.scss';
+import React, { memo } from 'react'
+import { Logo } from '@/presentation/components'
+import Styles from './login-header.module.scss'
 
-const { header } = Styles;
+const { header } = Styles
 
-const LoginHeader: React.FC = memo(() => {
-  return (
+const LoginHeader: React.FC = memo(() =>
     <header className={header}>
       <Logo />
       <h1>4Dev - Surveys for Programmers</h1>
     </header>
-  );
-});
+)
 
-export { LoginHeader };
-
+export { LoginHeader }

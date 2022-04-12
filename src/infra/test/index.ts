@@ -1,3 +1,2 @@
-export * from './mock-axios';
-export * from './mock-http-response';
-
+export * from './mock-axios'
+export * from './mock-http-response'

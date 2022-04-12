@@ -1,12 +1,11 @@
-import React from 'react';
-import Styles from './spinner.module.scss';
+import React from 'react'
+import Styles from './spinner.module.scss'
 
-const { spinner } = Styles;
+const { spinner } = Styles
 
-type SpinnerProps = React.HTMLAttributes<HTMLDivElement>;
+type SpinnerProps = React.HTMLAttributes<HTMLDivElement>
 
-const Spinner: React.FC<SpinnerProps> = (props: SpinnerProps) => {
-  return (
+const Spinner: React.FC<SpinnerProps> = (props: SpinnerProps) =>
     <div
       {...props}
       data-testid="spinner"
@@ -17,8 +16,5 @@ const Spinner: React.FC<SpinnerProps> = (props: SpinnerProps) => {
       <div />
       <div />
     </div>
-  );
-};
 
-export { Spinner };
-
+export { Spinner }

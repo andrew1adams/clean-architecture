@@ -1,18 +1,17 @@
-import { InvalidFieldError } from '@/validation/errors';
-import { FieldValidation } from '@/validation/protocols';
+import { InvalidFieldError } from '@/validation/errors'
+import { FieldValidation } from '@/validation/protocols'
 
 class EmailValidation implements FieldValidation {
   readonly field: string;
-  constructor(field: string) {
-    this.field = field;
+  constructor (field: string) {
+    this.field = field
   }
 
-  validate(value: string): Error {
+  validate (value: string): Error {
     const emailRegExp =
-      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-    return !value || emailRegExp.test(value) ? null : new InvalidFieldError();
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    return !value || emailRegExp.test(value) ? null : new InvalidFieldError()
   }
 }
 
-export { EmailValidation };
-
+export { EmailValidation }

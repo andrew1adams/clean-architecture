@@ -1,6 +1,5 @@
-import { AxiosHttpClient } from '@/infra/protocols';
+import { AxiosHttpClient } from '@/infra/protocols'
 
-const AxiosHttpClientCreator = (): AxiosHttpClient => new AxiosHttpClient();
+const AxiosHttpClientCreator = (): AxiosHttpClient => new AxiosHttpClient()
 
-export { AxiosHttpClientCreator };
-
+export { AxiosHttpClientCreator }

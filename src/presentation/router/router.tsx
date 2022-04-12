@@ -1,11 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from '@/presentation/pages';
-import '@/presentation/styles/global.module.scss';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import '@/presentation/styles/global.module.scss'
 
 type MainRouterProps = {
-  login: React.ReactElement;
-};
+  login: React.ReactElement
+}
 
 const Router: React.FC<MainRouterProps> = ({ login }: MainRouterProps) => (
   <BrowserRouter>
@@ -13,7 +12,6 @@ const Router: React.FC<MainRouterProps> = ({ login }: MainRouterProps) => (
       <Route path="/login" element={login} />
     </Routes>
   </BrowserRouter>
-);
+)
 
-export { Router };
-
+export { Router }
