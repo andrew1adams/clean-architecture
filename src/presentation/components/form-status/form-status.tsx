@@ -11,10 +11,10 @@ const FormStatus: React.FC = () => {
   } = useContext(LoginFormContext)
 
   return (
-    <div data-testid="error-wrapper" className={errorWrapper}>
+    <div data-testid='error-wrapper' className={errorWrapper}>
       {isLoading && <Spinner className={spinnerWrapper} />}
       {errorMessage && (
-        <span data-testid="main-error" className={error}>
+        <span data-testid='main-error' className={error}>
           {errorMessage}
         </span>
       )}

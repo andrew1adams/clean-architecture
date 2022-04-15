@@ -3,8 +3,6 @@ import Styles from './footer.module.scss'
 
 const { footer } = Styles
 
-const Footer: React.FC = memo(() =>
-  <footer className={footer}></footer>
-)
+const Footer: React.FC = memo(() => <footer className={footer}></footer>)
 
 export { Footer }

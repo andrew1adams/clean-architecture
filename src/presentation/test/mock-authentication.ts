@@ -3,11 +3,11 @@ import { mockAccountModel } from '@/domain/test'
 import { Authentication, AuthenticationParams } from '@/domain/usecases'
 
 class AuthenticationSpy implements Authentication {
-  account = mockAccountModel();
-  params: AuthenticationParams;
-  callsCount: number = 0;
+  account = mockAccountModel()
+  params: AuthenticationParams
+  callsCount: number = 0
 
-  async auth (params: AuthenticationParams): Promise<AccountModel> {
+  async auth(params: AuthenticationParams): Promise<AccountModel> {
     this.params = params
     this.callsCount++
 

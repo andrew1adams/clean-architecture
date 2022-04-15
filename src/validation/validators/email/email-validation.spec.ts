@@ -2,8 +2,7 @@ import { EmailValidation } from '@/validation/validators'
 import { InvalidFieldError } from '@/validation/errors'
 import faker from 'faker'
 
-const SystemUnderTestCreator = (): EmailValidation =>
-  new EmailValidation(faker.random.word())
+const SystemUnderTestCreator = (): EmailValidation => new EmailValidation(faker.random.word())
 
 describe('Email Validation', () => {
   test('Should return error if email is invalid', () => {

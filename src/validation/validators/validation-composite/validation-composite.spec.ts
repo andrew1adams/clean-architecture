@@ -8,10 +8,7 @@ type SutTypes = {
 }
 
 const SystemUnderTestCreator = (field: string): SutTypes => {
-  const fieldValidationsSpy = [
-    new FieldValidationSpy(field),
-    new FieldValidationSpy(field)
-  ]
+  const fieldValidationsSpy = [new FieldValidationSpy(field), new FieldValidationSpy(field)]
 
   const sut = ValidationComposite.build(fieldValidationsSpy)
 

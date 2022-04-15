@@ -4,10 +4,7 @@ import Styles from './input.module.scss'
 
 const { inputWrapper, status, error, success } = Styles
 
-type Props = React.DetailedHTMLProps<
-React.InputHTMLAttributes<HTMLInputElement>,
-HTMLInputElement
->
+type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 const Input: React.FC<Props> = (props: Props) => {
   const { state, setState } = useContext(LoginFormContext)
@@ -25,8 +22,7 @@ const Input: React.FC<Props> = (props: Props) => {
     })
   }
 
-  const getStatus = (): string =>
-    errorStatus ? `${status} ${error}` : `${status} ${success}`
+  const getStatus = (): string => (errorStatus ? `${status} ${error}` : `${status} ${success}`)
 
   const getTitle = (): string => errorStatus || 'Filled in Correctly'
 
@@ -39,11 +35,7 @@ const Input: React.FC<Props> = (props: Props) => {
         onFocus={handleFocus}
         onChange={handleChange}
       />
-      <span
-        title={getTitle()}
-        data-testid={`${props.name}-status`}
-        className={getStatus()}
-      />
+      <span title={getTitle()} data-testid={`${props.name}-status`} className={getStatus()} />
     </div>
   )
 }

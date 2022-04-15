@@ -23,7 +23,7 @@ describe('Validation Builder', () => {
 
   test('Should return MinLengthValidation', () => {
     const field = faker.random.word()
-    const length = faker.random.number()
+    const length = faker.datatype.number()
     const validations = ValidationBuilder.field(field).min(length).build()
 
     expect(validations).toEqual([new MinLengthValidation(field, length)])
@@ -31,12 +31,8 @@ describe('Validation Builder', () => {
 
   test('Should return a list of Validations', () => {
     const field = faker.random.word()
-    const length = faker.random.number()
-    const validations = ValidationBuilder.field(field)
-      .required()
-      .min(length)
-      .email()
-      .build()
+    const length = faker.datatype.number()
+    const validations = ValidationBuilder.field(field).required().min(length).email().build()
 
     expect(validations).toEqual([
       new RequiredFieldValidation(field),

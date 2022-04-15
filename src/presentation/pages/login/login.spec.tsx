@@ -1,12 +1,6 @@
 import React from 'react'
 import { Login } from '@/presentation/pages'
-import {
-  render,
-  RenderResult,
-  cleanup,
-  fireEvent,
-  waitFor
-} from '@testing-library/react'
+import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/error'
@@ -33,7 +27,7 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   const authenticationSpy = new AuthenticationSpy()
 
   const sut = render(
-    <Router navigator={history} location="/login">
+    <Router navigator={history} location='/login'>
       <Login validation={validationStub} authentication={authenticationSpy} />
     </Router>
   )
@@ -57,10 +51,7 @@ const simulateValidSubmit = (
   fireEvent.click(submitBtn)
 }
 
-const populateEmailField = (
-  sut: RenderResult,
-  email: string = faker.internet.email()
-): void => {
+const populateEmailField = (sut: RenderResult, email: string = faker.internet.email()): void => {
   const emailInput = sut.getByTestId('email-input')
   fireEvent.input(emailInput, { target: { value: email } })
 }
@@ -73,16 +64,10 @@ const populatePasswordField = (
   fireEvent.input(passwordInput, { target: { value: password } })
 }
 
-const testStatusField = (
-  sut: RenderResult,
-  fieldName: string,
-  validationError?: string
-): void => {
+const testStatusField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
   const inputStatus = sut.getByTestId(`${fieldName}-status`)
   expect(inputStatus.title).toBe(validationError || 'Filled in Correctly')
-  expect(inputStatus.className).toContain(
-    validationError ? 'error' : 'success'
-  )
+  expect(inputStatus.className).toContain(validationError ? 'error' : 'success')
 }
 
 const testErrorWrapperChildCount = (sut: RenderResult, count: number): void => {
@@ -95,20 +80,12 @@ const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
   expect(element).toBeTruthy()
 }
 
-const testElementTextToBeCompared = (
-  sut: RenderResult,
-  testId: string,
-  text: string
-): void => {
+const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: string): void => {
   const element = sut.getByTestId(testId)
   expect(element.textContent).toBe(text)
 }
 
-const testButtonIsDisabled = (
-  sut: RenderResult,
-  testId: string,
-  isDisabled: boolean
-): void => {
+const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boolean): void => {
   const btn = sut.getByTestId(testId) as HTMLButtonElement
   expect(btn.disabled).toBe(isDisabled)
 }
@@ -214,17 +191,13 @@ describe('Login', () => {
   test('Should present error if Authentication fails', async () => {
     const { sut, authenticationSpy } = SystemUnderTestCreator()
     const error = new InvalidCredentialsError()
-    jest
-      .spyOn(authenticationSpy, 'auth')
-      .mockReturnValueOnce(Promise.reject(error))
+    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
 
     simulateValidSubmit(sut)
 
     testErrorWrapperChildCount(sut, 1)
 
-    await waitFor(() =>
-      testElementTextToBeCompared(sut, 'main-error', error.message)
-    )
+    await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
 
   test('Should add accessToken to localStorage on success', async () => {

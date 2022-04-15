@@ -1,10 +1,5 @@
 import { Authentication } from '@/domain/usecases'
-import {
-  Footer,
-  Input,
-  LoginHeader,
-  FormStatus
-} from '@/presentation/components'
+import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
 import React, { useEffect, useState } from 'react'
@@ -18,10 +13,7 @@ type LoginProps = {
   authentication: Authentication
 }
 
-const Login: React.FC<LoginProps> = ({
-  validation,
-  authentication
-}: LoginProps) => {
+const Login: React.FC<LoginProps> = ({ validation, authentication }: LoginProps) => {
   const navigate = useNavigate()
 
   const [state, setState] = useState({
@@ -41,9 +33,7 @@ const Login: React.FC<LoginProps> = ({
     })
   }, [state.email, state.password])
 
-  const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
     try {
@@ -74,24 +64,20 @@ const Login: React.FC<LoginProps> = ({
     <div className={login}>
       <LoginHeader />
       <LoginFormContext.Provider value={{ state, setState }}>
-        <form data-testid="login-form" className={form} onSubmit={handleSubmit}>
+        <form data-testid='login-form' className={form} onSubmit={handleSubmit}>
           <h2>Login</h2>
-          <Input name="email" type="email" placeholder="Insert your email" />
-          <Input
-            type="password"
-            name="password"
-            placeholder="Insert your password"
-          />
+          <Input name='email' type='email' placeholder='Insert your email' />
+          <Input type='password' name='password' placeholder='Insert your password' />
 
           <button
-            data-testid="submit-btn"
+            data-testid='submit-btn'
             disabled={!!state.emailError || !!state.passwordError}
             className={submit}
-            type="submit"
+            type='submit'
           >
             Sign In
           </button>
-          <Link data-testid="sign-up-route" to="/sign-up" className={link}>
+          <Link data-testid='sign-up-route' to='/sign-up' className={link}>
             sign up
           </Link>
           <FormStatus />

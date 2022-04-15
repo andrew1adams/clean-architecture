@@ -4,11 +4,11 @@ import Styles from './login-header.module.scss'
 
 const { header } = Styles
 
-const LoginHeader: React.FC = memo(() =>
-    <header className={header}>
-      <Logo />
-      <h1>4Dev - Surveys for Programmers</h1>
-    </header>
-)
+const LoginHeader: React.FC = memo(() => (
+  <header className={header}>
+    <Logo />
+    <h1>4Dev - Surveys for Programmers</h1>
+  </header>
+))
 
 export { LoginHeader }

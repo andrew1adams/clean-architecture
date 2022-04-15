@@ -1,9 +1,9 @@
 import { Validation } from '@/presentation/protocols'
 
 class ValidationStub implements Validation {
-  errorMessage: string;
+  errorMessage: string
 
-  validate (field: string, value: string): string {
+  validate(field: string, value: string): string {
     return this.errorMessage
   }
 }

@@ -1,5 +1,5 @@
 class RequiredFieldError extends Error {
-  constructor () {
+  constructor() {
     super('Required Field')
     this.name = 'RequiredFieldError'
   }

@@ -9,7 +9,7 @@ type MainRouterProps = {
 const Router: React.FC<MainRouterProps> = ({ login }: MainRouterProps) => (
   <BrowserRouter>
     <Routes>
-      <Route path="/login" element={login} />
+      <Route path='/login' element={login} />
     </Routes>
   </BrowserRouter>
 )
