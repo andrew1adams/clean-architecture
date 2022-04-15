@@ -9,8 +9,9 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "check": "npm-check-updates",
-    "check:update": "npm-check-updates -u",
+    "test:cover": "coveralls < coverage/lcov.info",
+    "check": "ncu",
+    "check:update": "ncu -u",
     "lint": "eslint 'src/**/*'",
     "lint:fix": "eslint 'src/**/*' --fix"
   },
@@ -27,6 +28,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "clean-webpack-plugin": "^4.0.0",
+    "coveralls": "^3.1.1",
     "css-loader": "^6.7.1",
     "eslint": "^8.13.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
@@ -55,7 +57,7 @@
     "@types/faker": "^6.6.8",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
-    "faker": "^6.6.6",
+    "faker": "^5.5.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"
