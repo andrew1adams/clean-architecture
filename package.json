@@ -9,7 +9,7 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "test:cover": "coveralls < coverage/lcov.info",
+    "test:cover": "npm run test:ci && coveralls < coverage/lcov.info",
     "check": "ncu",
     "check:update": "ncu -u",
     "lint": "eslint 'src/**/*'",
