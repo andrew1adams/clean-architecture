@@ -1,4 +1,4 @@
-import { Authentication } from '@/domain/usecases'
+import { Authentication, SaveAccessToken } from '@/domain/usecases'
 import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
@@ -11,9 +11,14 @@ const { login, form, submit, link } = styles
 type LoginProps = {
   validation: Validation
   authentication: Authentication
+  saveAccessToken: SaveAccessToken
 }
 
-const Login: React.FC<LoginProps> = ({ validation, authentication }: LoginProps) => {
+const Login: React.FC<LoginProps> = ({
+  validation,
+  authentication,
+  saveAccessToken
+}: LoginProps) => {
   const navigate = useNavigate()
 
   const [state, setState] = useState({
@@ -49,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }: LoginProps)
         password: state.password
       })
 
-      localStorage.setItem('accessToken', account.accessToken)
+      await saveAccessToken.save(account.accessToken)
       navigate('/')
     } catch (err) {
       setState({
