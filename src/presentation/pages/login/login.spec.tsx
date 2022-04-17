@@ -7,7 +7,8 @@ import {
   SaveAccessTokenMock,
   testChildCount,
   testButtonIsDisabled,
-  testStatusField
+  testStatusField,
+  populateField
 } from '@/presentation/test'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/error'
@@ -58,24 +59,11 @@ const simulateValidSubmit = (
   email: string = faker.internet.email(),
   password: string = faker.internet.password()
 ): void => {
-  populateEmailField(sut, email)
-  populatePasswordField(sut, password)
+  populateField(sut, 'email', email)
+  populateField(sut, 'password', password)
 
   const submitBtn = sut.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
-}
-
-const populateEmailField = (sut: RenderResult, email: string = faker.internet.email()): void => {
-  const emailInput = sut.getByTestId('email-input')
-  fireEvent.input(emailInput, { target: { value: email } })
-}
-
-const populatePasswordField = (
-  sut: RenderResult,
-  password: string = faker.internet.password()
-): void => {
-  const passwordInput = sut.getByTestId('password-input')
-  fireEvent.input(passwordInput, { target: { value: password } })
 }
 
 const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
@@ -105,7 +93,7 @@ describe('Login', () => {
     const validationError = faker.random.words()
     const { sut } = SystemUnderTestCreator({ validationError })
 
-    populateEmailField(sut)
+    populateField(sut, 'email')
     testStatusField(sut, 'email', validationError)
   })
 
@@ -113,21 +101,21 @@ describe('Login', () => {
     const validationError = faker.random.words()
     const { sut } = SystemUnderTestCreator({ validationError })
 
-    populatePasswordField(sut)
+    populateField(sut, 'password')
 
     testStatusField(sut, 'password', validationError)
   })
 
   test('Should show valid email state if Validation succeeds', () => {
     const { sut } = SystemUnderTestCreator()
-    populateEmailField(sut)
+    populateField(sut, 'email')
 
     testStatusField(sut, 'email')
   })
 
   test('Should show valid password state if Validation succeeds', () => {
     const { sut } = SystemUnderTestCreator()
-    populatePasswordField(sut)
+    populateField(sut, 'password')
 
     testStatusField(sut, 'password')
   })
@@ -135,8 +123,8 @@ describe('Login', () => {
   test('Should enable submit button if form is valid', () => {
     const { sut } = SystemUnderTestCreator()
 
-    populateEmailField(sut)
-    populatePasswordField(sut)
+    populateField(sut, 'email')
+    populateField(sut, 'password')
     testButtonIsDisabled(sut, 'submit-btn', false)
   })
 
@@ -175,7 +163,7 @@ describe('Login', () => {
       validationError
     })
 
-    populateEmailField(sut)
+    populateField(sut, 'email')
 
     fireEvent.submit(sut.getByTestId('login-form'))
 

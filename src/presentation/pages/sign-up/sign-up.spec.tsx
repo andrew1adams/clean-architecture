@@ -1,11 +1,12 @@
 import React from 'react'
-import { cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
+import { cleanup, render, RenderResult } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import {
   testChildCount,
   testButtonIsDisabled,
   testStatusField,
-  ValidationStub
+  ValidationStub,
+  populateField
 } from '@/presentation/test'
 import faker from 'faker'
 
@@ -26,15 +27,6 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   return {
     sut
   }
-}
-
-const populateField = (
-  sut: RenderResult,
-  fieldName: string,
-  value: any = faker.random.word()
-): void => {
-  const element = sut.getByTestId(`${fieldName}-input`)
-  fireEvent.input(element, { target: { value } })
 }
 
 describe('Login', () => {
