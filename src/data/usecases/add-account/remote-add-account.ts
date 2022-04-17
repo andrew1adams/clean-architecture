@@ -11,6 +11,7 @@ class RemoteAddAccount implements AddAccount {
     this.url = url
     this.httpPostClient = httpPostClient
   }
+
   async add(params: AddAccountParams): Promise<AccountModel> {
     const httpResponse = await this.httpPostClient.post({
       url: this.url,
