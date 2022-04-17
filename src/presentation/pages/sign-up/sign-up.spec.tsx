@@ -75,4 +75,11 @@ describe('Login', () => {
     populateField(sut, 'passwordConfirmation')
     testStatusField(sut, 'passwordConfirmation', validationError)
   })
+
+  test('Should show valid name state if Validation succeeds', () => {
+    const { sut } = SystemUnderTestCreator()
+    populateField(sut, 'name')
+
+    testStatusField(sut, 'name')
+  })
 })
