@@ -12,4 +12,12 @@ describe('Compare Fields Validation', () => {
 
     expect(error).toEqual(new InvalidFieldError())
   })
+
+  test('Should return error if compare is valid', () => {
+    const value = faker.random.word()
+    const sut = SystemUnderTestCreator(value)
+    const error = sut.validate(value)
+
+    expect(error).toBeFalsy()
+  })
 })
