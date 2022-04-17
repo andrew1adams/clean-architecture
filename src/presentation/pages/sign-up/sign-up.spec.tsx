@@ -41,7 +41,7 @@ describe('Login', () => {
     testButtonIsDisabled(sut, 'submit-btn', true)
     testStatusField(sut, 'name', validationError)
     testStatusField(sut, 'email', validationError)
-    testStatusField(sut, 'password', fixedValue)
+    testStatusField(sut, 'password', validationError)
     testStatusField(sut, 'passwordConfirmation', fixedValue)
   })
 
@@ -59,5 +59,13 @@ describe('Login', () => {
 
     populateField(sut, 'email')
     testStatusField(sut, 'email', validationError)
+  })
+
+  test('Should show password error if Validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = SystemUnderTestCreator({ validationError })
+
+    populateField(sut, 'password')
+    testStatusField(sut, 'password', validationError)
   })
 })
