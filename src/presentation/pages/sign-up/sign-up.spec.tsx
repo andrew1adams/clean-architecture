@@ -103,4 +103,14 @@ describe('Login', () => {
 
     testStatusField(sut, 'passwordConfirmation')
   })
+
+  test('Should enable submit button if form is valid', () => {
+    const { sut } = SystemUnderTestCreator()
+
+    populateField(sut, 'name')
+    populateField(sut, 'email')
+    populateField(sut, 'password')
+    populateField(sut, 'passwordConfirmation')
+    testButtonIsDisabled(sut, 'submit-btn', false)
+  })
 })
