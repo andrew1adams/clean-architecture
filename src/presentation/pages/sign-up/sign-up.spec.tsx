@@ -82,4 +82,11 @@ describe('Login', () => {
 
     testStatusField(sut, 'name')
   })
+
+  test('Should show valid email state if Validation succeeds', () => {
+    const { sut } = SystemUnderTestCreator()
+    populateField(sut, 'email')
+
+    testStatusField(sut, 'email')
+  })
 })
