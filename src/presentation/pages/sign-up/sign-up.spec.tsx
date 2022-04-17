@@ -34,7 +34,6 @@ describe('Login', () => {
 
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
-    const fixedValue = 'Filled in Correctly'
     const { sut } = SystemUnderTestCreator({ validationError })
 
     testChildCount(sut, 'error-wrapper', 0)
@@ -42,7 +41,7 @@ describe('Login', () => {
     testStatusField(sut, 'name', validationError)
     testStatusField(sut, 'email', validationError)
     testStatusField(sut, 'password', validationError)
-    testStatusField(sut, 'passwordConfirmation', fixedValue)
+    testStatusField(sut, 'passwordConfirmation', validationError)
   })
 
   test('Should show name error if Validation fails', () => {
@@ -67,5 +66,13 @@ describe('Login', () => {
 
     populateField(sut, 'password')
     testStatusField(sut, 'password', validationError)
+  })
+
+  test('Should show passwordConfirmation error if Validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = SystemUnderTestCreator({ validationError })
+
+    populateField(sut, 'passwordConfirmation')
+    testStatusField(sut, 'passwordConfirmation', validationError)
   })
 })
