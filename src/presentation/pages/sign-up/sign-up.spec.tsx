@@ -40,7 +40,7 @@ describe('Login', () => {
     testChildCount(sut, 'error-wrapper', 0)
     testButtonIsDisabled(sut, 'submit-btn', true)
     testStatusField(sut, 'name', validationError)
-    testStatusField(sut, 'email', fixedValue)
+    testStatusField(sut, 'email', validationError)
     testStatusField(sut, 'password', fixedValue)
     testStatusField(sut, 'passwordConfirmation', fixedValue)
   })
@@ -51,5 +51,13 @@ describe('Login', () => {
 
     populateField(sut, 'name')
     testStatusField(sut, 'name', validationError)
+  })
+
+  test('Should show email error if Validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = SystemUnderTestCreator({ validationError })
+
+    populateField(sut, 'email')
+    testStatusField(sut, 'email', validationError)
   })
 })
