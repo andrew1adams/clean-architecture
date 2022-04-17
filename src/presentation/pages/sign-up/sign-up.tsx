@@ -52,7 +52,17 @@ const SignUp: React.FC<SignInProps> = ({ validation }: SignInProps) => {
             placeholder='Insert your password again'
           />
 
-          <button className={submit} data-testid='submit-btn' disabled type='submit'>
+          <button
+            className={submit}
+            data-testid='submit-btn'
+            disabled={
+              !!state.nameError ||
+              !!state.emailError ||
+              !!state.passwordError ||
+              !!state.passwordConfirmationError
+            }
+            type='submit'
+          >
             Sign In
           </button>
           <span className={link}>sign in</span>
