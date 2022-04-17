@@ -1,24 +1,37 @@
 import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
-import React, { useState } from 'react'
+import { Validation } from '@/presentation/protocols'
+import React, { useEffect, useState } from 'react'
 import styles from './sign-up.module.scss'
 
 const { signUp, form, submit, link } = styles
 
-const SignUp: React.FC = () => {
-  const [state] = useState({
+type SignInProps = {
+  validation: Validation
+}
+
+const SignUp: React.FC<SignInProps> = ({ validation }: SignInProps) => {
+  const [state, setState] = useState({
     isLoading: false,
-    nameError: 'Filled in Correctly',
+    name: '',
+    nameError: '',
     emailError: 'Filled in Correctly',
     passwordError: 'Filled in Correctly',
     passwordConfirmationError: 'Filled in Correctly',
     errorMessage: ''
   })
 
+  useEffect(() => {
+    setState({
+      ...state,
+      nameError: validation.validate('name', state.name)
+    })
+  }, [state.name])
+
   return (
     <div className={signUp}>
       <LoginHeader />
-      <LoginFormContext.Provider value={{ state }}>
+      <LoginFormContext.Provider value={{ state, setState }}>
         <form className={form}>
           <h2>Register</h2>
           <Input name='name' type='text' placeholder='Insert your name' />
