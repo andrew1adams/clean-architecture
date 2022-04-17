@@ -1,7 +1,14 @@
 import React from 'react'
 import { Login } from '@/presentation/pages'
 import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
-import { ValidationStub, AuthenticationSpy, SaveAccessTokenMock } from '@/presentation/test'
+import {
+  ValidationStub,
+  AuthenticationSpy,
+  SaveAccessTokenMock,
+  testChildCount,
+  testButtonIsDisabled,
+  testStatusField
+} from '@/presentation/test'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/error'
 import { Router } from 'react-router-dom'
@@ -71,17 +78,6 @@ const populatePasswordField = (
   fireEvent.input(passwordInput, { target: { value: password } })
 }
 
-const testStatusField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const inputStatus = sut.getByTestId(`${fieldName}-status`)
-  expect(inputStatus.title).toBe(validationError || 'Filled in Correctly')
-  expect(inputStatus.className).toContain(validationError ? 'error' : 'success')
-}
-
-const testErrorWrapperChildCount = (sut: RenderResult, count: number): void => {
-  const errorWrapper = sut.getByTestId('error-wrapper')
-  expect(errorWrapper.childElementCount).toBe(count)
-}
-
 const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
   const element = sut.getByTestId(testId)
   expect(element).toBeTruthy()
@@ -92,11 +88,6 @@ const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: st
   expect(element.textContent).toBe(text)
 }
 
-const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boolean): void => {
-  const btn = sut.getByTestId(testId) as HTMLButtonElement
-  expect(btn.disabled).toBe(isDisabled)
-}
-
 describe('Login', () => {
   afterEach(cleanup)
 
@@ -104,7 +95,7 @@ describe('Login', () => {
     const validationError = faker.random.words()
     const { sut } = SystemUnderTestCreator({ validationError })
 
-    testErrorWrapperChildCount(sut, 0)
+    testChildCount(sut, 'error-wrapper', 0)
     testButtonIsDisabled(sut, 'submit-btn', true)
     testStatusField(sut, 'email', validationError)
     testStatusField(sut, 'password', validationError)
@@ -198,7 +189,7 @@ describe('Login', () => {
 
     simulateValidSubmit(sut)
 
-    testErrorWrapperChildCount(sut, 1)
+    testChildCount(sut, 'error-wrapper', 1)
 
     await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
@@ -221,7 +212,7 @@ describe('Login', () => {
     jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
     simulateValidSubmit(sut)
 
-    testErrorWrapperChildCount(sut, 1)
+    testChildCount(sut, 'error-wrapper', 1)
 
     await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
