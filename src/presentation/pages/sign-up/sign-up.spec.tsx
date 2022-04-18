@@ -165,4 +165,17 @@ describe('Login', () => {
 
     expect(addAccountSpy.callsCount).toBe(1)
   })
+
+  test('Should not call AddAccount if form is invalid', () => {
+    const validationError = faker.random.words()
+    const { sut, addAccountSpy } = SystemUnderTestCreator({
+      validationError
+    })
+
+    simulateValidSubmit(sut)
+
+    fireEvent.submit(sut.getByTestId('sign-up-form'))
+
+    expect(addAccountSpy.callsCount).toBe(0)
+  })
 })
