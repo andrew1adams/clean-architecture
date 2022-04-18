@@ -1,5 +1,5 @@
 import { Authentication, SaveAccessToken } from '@/domain/usecases'
-import { Footer, Input, LoginHeader, FormStatus } from '@/presentation/components'
+import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
 import React, { useEffect, useState } from 'react'
@@ -23,6 +23,7 @@ const Login: React.FC<LoginProps> = ({
 
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     email: '',
     password: '',
     emailError: '',
@@ -31,10 +32,14 @@ const Login: React.FC<LoginProps> = ({
   })
 
   useEffect(() => {
+    const emailError = validation.validate('email', state.email)
+    const passwordError = validation.validate('password', state.password)
+
     setState({
       ...state,
-      emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password)
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError
     })
   }, [state.email, state.password])
 
@@ -42,7 +47,7 @@ const Login: React.FC<LoginProps> = ({
     event.preventDefault()
 
     try {
-      if (state.isLoading || state.emailError || state.passwordError) return
+      if (state.isLoading || state.isFormInvalid) return
 
       setState({
         ...state,
@@ -74,14 +79,8 @@ const Login: React.FC<LoginProps> = ({
           <Input name='email' type='email' placeholder='Insert your email' />
           <Input type='password' name='password' placeholder='Insert your password' />
 
-          <button
-            data-testid='submit-btn'
-            disabled={!!state.emailError || !!state.passwordError}
-            className={submit}
-            type='submit'
-          >
-            Sign In
-          </button>
+          <SubmitButton text='Sign In' />
+
           <Link data-testid='sign-up-link' to='/sign-up' className={link}>
             sign up
           </Link>
