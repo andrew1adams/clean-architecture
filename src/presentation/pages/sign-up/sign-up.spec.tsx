@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, render, RenderResult } from '@testing-library/react'
+import { cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import {
   testChildCount,
@@ -27,6 +27,26 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   return {
     sut
   }
+}
+
+const simulateValidSubmit = (
+  sut: RenderResult,
+  name: string = faker.name.findName(),
+  email: string = faker.internet.email(),
+  password: string = faker.internet.password()
+): void => {
+  populateField(sut, 'name', name)
+  populateField(sut, 'email', email)
+  populateField(sut, 'password', password)
+  populateField(sut, 'passwordConfirmation', password)
+
+  const submitBtn = sut.getByTestId('submit-btn')
+  fireEvent.click(submitBtn)
+}
+
+const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
+  const element = sut.getByTestId(testId)
+  expect(element).toBeTruthy()
 }
 
 describe('Login', () => {
@@ -112,5 +132,12 @@ describe('Login', () => {
     populateField(sut, 'password')
     populateField(sut, 'passwordConfirmation')
     testButtonIsDisabled(sut, 'submit-btn', false)
+  })
+
+  test('Should show spinner on submit', () => {
+    const { sut } = SystemUnderTestCreator()
+
+    simulateValidSubmit(sut)
+    testElementAlreadyExists(sut, 'spinner')
   })
 })
