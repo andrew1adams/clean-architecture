@@ -231,4 +231,13 @@ describe('Sign Up', () => {
 
     await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
+
+  test('Should go to login page', () => {
+    const { sut } = SystemUnderTestCreator()
+
+    const signUp = sut.getByTestId('login-link')
+    fireEvent.click(signUp)
+
+    expect(history.location.pathname).toBe('/login')
+  })
 })
