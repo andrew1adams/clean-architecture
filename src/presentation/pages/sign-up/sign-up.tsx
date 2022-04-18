@@ -41,6 +41,8 @@ const SignUp: React.FC<SignInProps> = ({ validation, addAccount }: SignInProps) 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
+    if (state.isLoading) return
+
     setState({
       ...state,
       isLoading: true
