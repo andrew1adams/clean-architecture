@@ -8,7 +8,8 @@ import {
   testChildCount,
   testButtonIsDisabled,
   testStatusField,
-  populateField
+  populateField,
+  testElementAlreadyExists
 } from '@/presentation/test'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/error'
@@ -64,11 +65,6 @@ const simulateValidSubmit = (
 
   const submitBtn = sut.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
-}
-
-const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
-  const element = sut.getByTestId(testId)
-  expect(element).toBeTruthy()
 }
 
 const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: string): void => {

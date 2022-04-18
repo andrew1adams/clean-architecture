@@ -6,7 +6,8 @@ import {
   testButtonIsDisabled,
   testStatusField,
   ValidationStub,
-  populateField
+  populateField,
+  testElementAlreadyExists
 } from '@/presentation/test'
 import faker from 'faker'
 
@@ -42,11 +43,6 @@ const simulateValidSubmit = (
 
   const submitBtn = sut.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
-}
-
-const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
-  const element = sut.getByTestId(testId)
-  expect(element).toBeTruthy()
 }
 
 describe('Login', () => {
