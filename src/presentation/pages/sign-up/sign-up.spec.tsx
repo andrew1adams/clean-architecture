@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
+import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import { SignUp } from '@/presentation/pages'
 import {
   testChildCount,
@@ -11,6 +11,7 @@ import {
   AddAccountSpy
 } from '@/presentation/test'
 import faker from 'faker'
+import { EmailInUseError } from '@/domain/error'
 
 type SutTypes = {
   sut: RenderResult
@@ -49,7 +50,12 @@ const simulateValidSubmit = (
   fireEvent.click(submitBtn)
 }
 
-describe('Login', () => {
+const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: string): void => {
+  const element = sut.getByTestId(testId)
+  expect(element.textContent).toBe(text)
+}
+
+describe('Sign Up', () => {
   afterEach(cleanup)
 
   test('Should start with initial state', () => {
@@ -157,7 +163,7 @@ describe('Login', () => {
     })
   })
 
-  test('Should call Authentication only once', () => {
+  test('Should call AddAccount only once', () => {
     const { sut, addAccountSpy } = SystemUnderTestCreator()
 
     simulateValidSubmit(sut)
@@ -177,5 +183,17 @@ describe('Login', () => {
     fireEvent.submit(sut.getByTestId('sign-up-form'))
 
     expect(addAccountSpy.callsCount).toBe(0)
+  })
+
+  test('Should present error if Authentication fails', async () => {
+    const { sut, addAccountSpy } = SystemUnderTestCreator()
+    const error = new EmailInUseError()
+    jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
+
+    simulateValidSubmit(sut)
+
+    testChildCount(sut, 'error-wrapper', 1)
+
+    await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
 })
