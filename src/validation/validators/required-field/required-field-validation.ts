@@ -8,8 +8,8 @@ class RequiredFieldValidation implements FieldValidation {
     this.field = field
   }
 
-  validate(value: string): Error {
-    return value ? null : new RequiredFieldError()
+  validate(input: object): Error {
+    return input[this.field] ? null : new RequiredFieldError()
   }
 }
 

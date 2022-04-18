@@ -29,7 +29,7 @@ describe('Validation Composite', () => {
       (fieldValidation, idx) => (fieldValidation.error = new Error(errors[idx]))
     )
 
-    const error = sut.validate(field, faker.random.word())
+    const error = sut.validate(field, { [field]: faker.random.word() })
     expect(error).toBe(errors[0])
   })
 
@@ -37,7 +37,7 @@ describe('Validation Composite', () => {
     const field = faker.random.word()
     const { sut } = SystemUnderTestCreator(field)
 
-    const error = sut.validate(field, faker.random.word())
+    const error = sut.validate(field, { [field]: faker.random.word() })
     expect(error).toBeFalsy()
   })
 })

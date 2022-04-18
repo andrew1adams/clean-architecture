@@ -7,10 +7,12 @@ class EmailValidation implements FieldValidation {
     this.field = field
   }
 
-  validate(value: string): Error {
+  validate(input: object): Error {
     const emailRegExp =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    return !value || emailRegExp.test(value) ? null : new InvalidFieldError()
+    return !input[this.field] || emailRegExp.test(input[this.field])
+      ? null
+      : new InvalidFieldError()
   }
 }
 

@@ -3,15 +3,15 @@ import { FieldValidation } from '@/validation/protocols'
 
 class CompareFieldsValidation implements FieldValidation {
   readonly field: string
-  private readonly valueToCompare: string
+  private readonly fieldToCompare: string
 
-  constructor(field: string, valueToCompare: string) {
+  constructor(field: string, fieldToCompare: string) {
     this.field = field
-    this.valueToCompare = valueToCompare
+    this.fieldToCompare = fieldToCompare
   }
 
-  validate(value: string): Error {
-    return value !== this.valueToCompare && new InvalidFieldError()
+  validate(input: object): Error {
+    return input[this.field] !== input[this.fieldToCompare] && new InvalidFieldError()
   }
 }
 

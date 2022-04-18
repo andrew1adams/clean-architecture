@@ -8,7 +8,7 @@ class FieldValidationSpy implements FieldValidation {
     this.field = field
   }
 
-  validate(value: string): Error {
+  validate(input: object): Error {
     return this.error
   }
 }

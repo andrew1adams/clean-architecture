@@ -12,11 +12,11 @@ class ValidationComposite implements Validation {
     return new ValidationComposite(validators)
   }
 
-  validate(field: string, value: string): string {
+  validate(field: string, input: object): string {
     const validators = this.validators.filter(validator => validator.field === field)
 
     for (const validator of validators) {
-      const error = validator.validate(value)
+      const error = validator.validate(input)
 
       if (error) return error.message
     }
