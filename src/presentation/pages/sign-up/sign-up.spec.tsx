@@ -7,12 +7,14 @@ import {
   testStatusField,
   ValidationStub,
   populateField,
-  testElementAlreadyExists
+  testElementAlreadyExists,
+  AddAccountSpy
 } from '@/presentation/test'
 import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
+  addAccountSpy: AddAccountSpy
 }
 
 type SutParams = {
@@ -22,11 +24,13 @@ type SutParams = {
 const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
+  const addAccountSpy = new AddAccountSpy()
 
-  const sut = render(<SignUp validation={validationStub} />)
+  const sut = render(<SignUp validation={validationStub} addAccount={addAccountSpy} />)
 
   return {
-    sut
+    sut,
+    addAccountSpy
   }
 }
 
@@ -135,5 +139,21 @@ describe('Login', () => {
 
     simulateValidSubmit(sut)
     testElementAlreadyExists(sut, 'spinner')
+  })
+
+  test('Should call AddAccount with correct values', () => {
+    const { sut, addAccountSpy } = SystemUnderTestCreator()
+    const name = faker.name.findName()
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+
+    simulateValidSubmit(sut, name, email, password)
+
+    expect(addAccountSpy.params).toEqual({
+      name,
+      email,
+      password,
+      passwordConfirmation: password
+    })
   })
 })
