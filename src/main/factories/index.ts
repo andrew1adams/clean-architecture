@@ -6,5 +6,6 @@ export * from './http/api-url-factory'
 export * from './cache/local-storage-adapter-factory'
 
 export * from './usecases/authentication/remote-authentication-factory'
-export * from './usecases/validation/login-validation-factory'
 export * from './usecases/save-access-token/local-save-access-token-factory'
+export * from './usecases/validation/login-validation/login-validation-factory'
+export * from './usecases/validation/sign-up-validation/sign-up-validation-factory'
