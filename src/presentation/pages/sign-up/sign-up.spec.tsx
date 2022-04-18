@@ -9,30 +9,46 @@ import {
   populateField,
   testElementAlreadyExists,
   AddAccountSpy,
-  testElementTextToBeCompared
+  testElementTextToBeCompared,
+  SaveAccessTokenMock
 } from '@/presentation/test'
 import faker from 'faker'
 import { EmailInUseError } from '@/domain/error'
+import { createMemoryHistory } from 'history'
+import { Router } from 'react-router-dom'
 
 type SutTypes = {
   sut: RenderResult
   addAccountSpy: AddAccountSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory({ initialEntries: ['/sign-up'] })
+
 const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
   const addAccountSpy = new AddAccountSpy()
+  const saveAccessTokenMock = new SaveAccessTokenMock()
 
-  const sut = render(<SignUp validation={validationStub} addAccount={addAccountSpy} />)
+  const sut = render(
+    <Router navigator={history} location='/sign-up'>
+      <SignUp
+        validation={validationStub}
+        addAccount={addAccountSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
+    </Router>
+  )
 
   return {
     sut,
-    addAccountSpy
+    addAccountSpy,
+    saveAccessTokenMock
   }
 }
 
@@ -191,5 +207,17 @@ describe('Sign Up', () => {
     testChildCount(sut, 'error-wrapper', 1)
 
     await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
+  })
+
+  test('Should call SaveAccessToken on success', async () => {
+    const { sut, addAccountSpy, saveAccessTokenMock } = SystemUnderTestCreator()
+
+    simulateValidSubmit(sut)
+
+    await waitFor(() => {
+      expect(saveAccessTokenMock.accessToken).toBe(addAccountSpy.account.accessToken)
+    })
+
+    expect(history.location.pathname).toBe('/')
   })
 })
