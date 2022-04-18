@@ -82,7 +82,7 @@ const Login: React.FC<LoginProps> = ({
           >
             Sign In
           </button>
-          <Link data-testid='sign-up-route' to='/sign-up' className={link}>
+          <Link data-testid='sign-up-link' to='/sign-up' className={link}>
             sign up
           </Link>
           <FormStatus />

@@ -200,7 +200,7 @@ describe('Login', () => {
   test('Should go to sign up page', () => {
     const { sut } = SystemUnderTestCreator()
 
-    const signUp = sut.getByTestId('sign-up-route')
+    const signUp = sut.getByTestId('sign-up-link')
     fireEvent.click(signUp)
 
     expect(history.location.pathname).toBe('/sign-up')
