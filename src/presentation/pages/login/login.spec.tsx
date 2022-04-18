@@ -9,7 +9,8 @@ import {
   testButtonIsDisabled,
   testStatusField,
   populateField,
-  testElementAlreadyExists
+  testElementAlreadyExists,
+  testElementTextToBeCompared
 } from '@/presentation/test'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/error'
@@ -65,11 +66,6 @@ const simulateValidSubmit = (
 
   const submitBtn = sut.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
-}
-
-const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: string): void => {
-  const element = sut.getByTestId(testId)
-  expect(element.textContent).toBe(text)
 }
 
 describe('Login', () => {
@@ -169,7 +165,7 @@ describe('Login', () => {
   test('Should present error if Authentication fails', async () => {
     const { sut, authenticationSpy } = SystemUnderTestCreator()
     const error = new InvalidCredentialsError()
-    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
 
     simulateValidSubmit(sut)
 

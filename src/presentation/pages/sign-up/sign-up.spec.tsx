@@ -8,7 +8,8 @@ import {
   ValidationStub,
   populateField,
   testElementAlreadyExists,
-  AddAccountSpy
+  AddAccountSpy,
+  testElementTextToBeCompared
 } from '@/presentation/test'
 import faker from 'faker'
 import { EmailInUseError } from '@/domain/error'
@@ -48,11 +49,6 @@ const simulateValidSubmit = (
 
   const submitBtn = sut.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
-}
-
-const testElementTextToBeCompared = (sut: RenderResult, testId: string, text: string): void => {
-  const element = sut.getByTestId(testId)
-  expect(element.textContent).toBe(text)
 }
 
 describe('Sign Up', () => {
