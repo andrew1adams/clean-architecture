@@ -156,4 +156,13 @@ describe('Login', () => {
       passwordConfirmation: password
     })
   })
+
+  test('Should call Authentication only once', () => {
+    const { sut, addAccountSpy } = SystemUnderTestCreator()
+
+    simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
+
+    expect(addAccountSpy.callsCount).toBe(1)
+  })
 })
