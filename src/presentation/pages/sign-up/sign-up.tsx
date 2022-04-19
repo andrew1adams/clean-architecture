@@ -3,11 +3,10 @@ import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presenta
 import { LoginFormContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './sign-up.module.scss'
 
-const { signUp, form, submit, link } = styles
+const { signUp, form, link } = styles
 
 type SignInProps = {
   validation: Validation

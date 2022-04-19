@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './login.module.scss'
 
-const { login, form, submit, link } = styles
+const { login, form, link } = styles
 
 type LoginProps = {
   validation: Validation
