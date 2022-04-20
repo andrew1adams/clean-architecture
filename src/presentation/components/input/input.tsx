@@ -29,12 +29,16 @@ const Input: React.FC<Props> = (props: Props) => {
   return (
     <div className={inputWrapper}>
       <input
-        data-testid={`${props.name}-input`}
         {...props}
+        placeholder=' '
+        name={props.name}
+        id={props.name}
+        data-testid={`${props.name}-input`}
         readOnly
         onFocus={handleFocus}
         onChange={handleChange}
       />
+      <label htmlFor={props.name}>{props.placeholder}</label>
       <span title={getTitle()} data-testid={`${props.name}-status`} className={getStatus()} />
     </div>
   )
