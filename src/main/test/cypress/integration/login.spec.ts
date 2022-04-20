@@ -46,35 +46,22 @@ describe('Login', () => {
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
 
-  it('Should present error if InvalidCredentials are provided', () => {
+  it('Should present InvalidCredentialsError', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 401,
+      body: {
+        error: faker.random.words()
+      }
+    }).as('login')
     cy.getByTestId('email-input').focus().type(faker.internet.email())
     cy.getByTestId('password-input').focus().type(faker.internet.password())
     cy.getByTestId('submit-btn').click()
-    cy.getByTestId('error-wrapper')
-      .getByTestId('spinner')
-      .should('exist')
-      .getByTestId('main-error')
-      .should('not.exist')
-      .getByTestId('spinner')
-      .should('not.exist')
-      .getByTestId('main-error')
-      .should('exist')
-      .should('contain.text', 'Invalid Credentials')
+    cy.wait('@login').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(401)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('error')
+    })
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('exist').should('contain.text', 'Invalid Credentials')
     cy.url().should('eq', baseURL('/login'))
-  })
-
-  it('Should present SaveAccessToken if valid credentials are provided', () => {
-    cy.getByTestId('email-input').focus().type('mango@gmail.com')
-    cy.getByTestId('password-input').focus().type('12345')
-    cy.getByTestId('submit-btn').click()
-    cy.getByTestId('error-wrapper')
-      .getByTestId('spinner')
-      .should('exist')
-      .getByTestId('main-error')
-      .should('not.exist')
-      .getByTestId('spinner')
-      .should('not.exist')
-    cy.url().should('eq', baseURL())
-    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
 })
