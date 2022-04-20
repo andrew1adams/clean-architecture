@@ -94,8 +94,8 @@ describe('Login', () => {
         [randomProperty]: faker.random.uuid()
       }
     }).as('login')
-    cy.getByTestId('email-input').focus().type('mango@gmail.com')
-    cy.getByTestId('password-input').focus().type('12345')
+    cy.getByTestId('email-input').focus().type(faker.internet.email())
+    cy.getByTestId('password-input').focus().type(faker.internet.password())
     cy.getByTestId('submit-btn').click()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
@@ -115,8 +115,8 @@ describe('Login', () => {
         accessToken: faker.random.uuid()
       }
     }).as('login')
-    cy.getByTestId('email-input').focus().type('mango@gmail.com')
-    cy.getByTestId('password-input').focus().type('12345')
+    cy.getByTestId('email-input').focus().type(faker.internet.email())
+    cy.getByTestId('password-input').focus().type(faker.internet.password())
     cy.getByTestId('submit-btn').click()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
