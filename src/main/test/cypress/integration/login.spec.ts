@@ -107,4 +107,24 @@ describe('Login', () => {
       .should('contain.text', 'Something was wrong, try again later.')
     cy.url().should('eq', baseURL('/login'))
   })
+
+  it('Should present SaveAccessToken if valid credentials are provided', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 200,
+      body: {
+        accessToken: faker.random.uuid()
+      }
+    }).as('login')
+    cy.getByTestId('email-input').focus().type('mango@gmail.com')
+    cy.getByTestId('password-input').focus().type('12345')
+    cy.getByTestId('submit-btn').click()
+    cy.wait('@login').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(200)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('accessToken')
+    })
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
+    cy.url().should('eq', baseURL())
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+  })
 })
