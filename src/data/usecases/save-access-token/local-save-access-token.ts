@@ -1,4 +1,5 @@
 import { SetStorage } from '@/data/protocols'
+import { UnexpectedError } from '@/domain/error'
 import { SaveAccessToken } from '@/domain/usecases'
 
 class LocalSaveAccessToken implements SaveAccessToken {
@@ -9,6 +10,10 @@ class LocalSaveAccessToken implements SaveAccessToken {
   }
 
   async save(accessToken: string): Promise<void> {
+    if (!accessToken) {
+      throw new UnexpectedError()
+    }
+
     await this.setStorage.set('accessToken', accessToken)
   }
 }
