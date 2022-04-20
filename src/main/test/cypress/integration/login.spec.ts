@@ -64,4 +64,25 @@ describe('Login', () => {
     cy.getByTestId('main-error').should('exist').should('contain.text', 'Invalid Credentials')
     cy.url().should('eq', baseURL('/login'))
   })
+
+  it('Should present UnexpectedError', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 400,
+      body: {
+        error: faker.random.words()
+      }
+    }).as('login')
+    cy.getByTestId('email-input').focus().type(faker.internet.email())
+    cy.getByTestId('password-input').focus().type(faker.internet.password())
+    cy.getByTestId('submit-btn').click()
+    cy.wait('@login').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(400)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('error')
+    })
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error')
+      .should('exist')
+      .should('contain.text', 'Something was wrong, try again later.')
+    cy.url().should('eq', baseURL('/login'))
+  })
 })
