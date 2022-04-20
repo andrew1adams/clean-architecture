@@ -1,5 +1,6 @@
 import { SetStorageMock } from '@/data/test'
 import { LocalSaveAccessToken } from '@/data/usecases'
+import { UnexpectedError } from '@/domain/error'
 import faker from 'faker'
 
 type SutTypes = {
@@ -29,5 +30,12 @@ describe('Local Save Access Token', () => {
     const promise = sut.save(faker.datatype.uuid())
 
     await expect(promise).rejects.toThrow(new Error())
+  })
+
+  test('Should throw if accessToken is falsy', async () => {
+    const { sut } = SystemUnderTestCreator()
+    const promise = sut.save(undefined)
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
