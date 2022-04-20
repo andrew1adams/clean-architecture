@@ -126,6 +126,7 @@ describe('Login', () => {
     cy.url().should('eq', baseURL())
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
+
   it('Should present SaveAccessToken if valid credentials are provided', () => {
     cy.intercept('POST', /login/, {
       statusCode: 200,
@@ -137,5 +138,18 @@ describe('Login', () => {
     cy.getByTestId('password-input').focus().type(faker.internet.password())
     cy.getByTestId('submit-btn').dblclick()
     cy.get('@login.all').its('length').should('eq', 1)
+  })
+
+  it('Should present SaveAccessToken if valid credentials are provided', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 200,
+      body: {
+        accessToken: faker.random.uuid()
+      }
+    }).as('login')
+    cy.getByTestId('email-input').focus().type(faker.internet.email())
+    cy.getByTestId('password-input').focus().type(faker.random.alphaNumeric(4))
+    cy.getByTestId('submit-btn').click({ force: true })
+    cy.get('@login.all').its('length').should('eq', 0)
   })
 })
