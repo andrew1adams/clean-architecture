@@ -116,8 +116,7 @@ describe('Login', () => {
       }
     }).as('login')
     cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
-    cy.getByTestId('submit-btn').click()
+    cy.getByTestId('password-input').focus().type(`${faker.internet.password()}{enter}`)
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
       expect(XMLHttpRequest.response.body).haveOwnProperty('accessToken')
