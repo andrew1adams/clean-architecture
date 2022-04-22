@@ -2,7 +2,7 @@ import { testFormHelper } from '../support/test-form-helper'
 import * as faker from 'faker'
 import { mockSignUpRequest } from '../support/mock-sign-up-request'
 
-const simulateValidSubmit = (): void => {
+const populateFields = (): void => {
   const password = faker.internet.password()
   cy.getByTestId('name-input').focus().type(faker.name.findName())
   testFormHelper.testStatusField('name')
@@ -12,6 +12,10 @@ const simulateValidSubmit = (): void => {
   testFormHelper.testStatusField('password')
   cy.getByTestId('passwordConfirmation-input').focus().type(password)
   testFormHelper.testStatusField('passwordConfirmation')
+}
+
+const simulateValidSubmit = (): void => {
+  populateFields()
   cy.getByTestId('submit-btn').click()
 }
 
@@ -47,7 +51,7 @@ describe('SignUp', () => {
   })
 
   it('Should present valid state if form is valid', () => {
-    simulateValidSubmit()
+    populateFields()
     cy.getByTestId('submit-btn').should('not.be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
@@ -99,5 +103,12 @@ describe('SignUp', () => {
     cy.getByTestId('spinner').should('not.exist')
     testFormHelper.testUrl()
     testFormHelper.testLocalSTorageItem('accessToken')
+  })
+
+  it('Should prevents multiple submits', () => {
+    mockSignUpRequest.successRequest()
+    populateFields()
+    cy.getByTestId('submit-btn').dblclick()
+    cy.get('@signup.all').its('length').should('eq', 1)
   })
 })
