@@ -15,7 +15,7 @@ const simulateValidSubmit = (): void => {
   cy.getByTestId('submit-btn').click()
 }
 
-describe('Login', () => {
+describe('SignUp', () => {
   beforeEach(() => {
     cy.visit('/sign-up')
   })
@@ -61,5 +61,19 @@ describe('Login', () => {
     })
     testFormHelper.testExpectedError('E-mail is already being used')
     testFormHelper.testUrl('/sign-up')
+  })
+
+  it('Should present UnexpectedError', () => {
+    const statusCode = faker.helpers.randomize([400, 404, 500])
+    mockSignUpRequest.unexpectedError(statusCode)
+    simulateValidSubmit()
+    cy.wait('@signup').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(statusCode)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('error')
+    })
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error')
+      .should('exist')
+      .should('contain.text', 'Something was wrong, try again later.')
   })
 })
