@@ -18,6 +18,13 @@ const mockUnexpectedError = (url: string, method, statusCode: number): void => {
   }).as(url)
 }
 
+const mockSuccess = (url: string, method, response: any): void => {
+  cy.intercept(method, RegExp(url), {
+    statusCode: 200,
+    body: response
+  }).as(url)
+}
+
 const emailInUseError = (): void => {
   mockEmailInUseError('signup')
 }
@@ -26,6 +33,10 @@ const unexpectedError = (statusCode: number): void => {
   mockUnexpectedError('signup', 'POST', statusCode)
 }
 
-const mockSignUpRequest = { emailInUseError, unexpectedError }
+const invalidData = (): void => {
+  mockSuccess('signup', 'POST', { invalidData: faker.random.uuid() })
+}
+
+const mockSignUpRequest = { emailInUseError, unexpectedError, invalidData }
 
 export { mockSignUpRequest }

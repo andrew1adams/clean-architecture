@@ -76,4 +76,15 @@ describe('SignUp', () => {
       .should('exist')
       .should('contain.text', 'Something was wrong, try again later.')
   })
+
+  it('Should present UnexpectedError if invalid data is returned', () => {
+    mockSignUpRequest.invalidData()
+    simulateValidSubmit()
+    cy.wait('@signup').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(200)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('invalidData')
+    })
+    testFormHelper.testExpectedError('Something was wrong, try again later.')
+    testFormHelper.testUrl('/sign-up')
+  })
 })
