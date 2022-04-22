@@ -111,4 +111,12 @@ describe('SignUp', () => {
     cy.getByTestId('submit-btn').dblclick()
     cy.get('@signup.all').its('length').should('eq', 1)
   })
+
+  it('Should not call submit if form is invalid', () => {
+    mockSignUpRequest.successRequest()
+    cy.getByTestId('email-input').focus().type(faker.internet.email())
+    cy.getByTestId('password-input').focus().type(faker.random.alphaNumeric(4))
+    cy.getByTestId('submit-btn').click({ force: true })
+    cy.get('@signup.all').its('length').should('eq', 0)
+  })
 })
