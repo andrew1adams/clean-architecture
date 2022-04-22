@@ -2,11 +2,15 @@ import * as faker from 'faker'
 import { mockLoginRequest } from '../support/mock-login-request'
 import { testFormHelper } from '../support/test-form-helper'
 
-const simulateValidSubmit = (): void => {
+const populateFields = (): void => {
   cy.getByTestId('email-input').focus().type(faker.internet.email())
   testFormHelper.testStatusField('email')
   cy.getByTestId('password-input').focus().type(faker.internet.password())
   testFormHelper.testStatusField('password')
+}
+
+const simulateValidSubmit = (): void => {
+  populateFields()
   cy.getByTestId('submit-btn').click()
 }
 
@@ -34,7 +38,7 @@ describe('Login', () => {
   })
 
   it('Should present valid state if form is valid', () => {
-    simulateValidSubmit()
+    populateFields()
     cy.getByTestId('submit-btn').should('not.be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
@@ -90,8 +94,7 @@ describe('Login', () => {
 
   it('Should prevents multiple submits', () => {
     mockLoginRequest.successRequest()
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
+    populateFields()
     cy.getByTestId('submit-btn').dblclick()
     cy.get('@login.all').its('length').should('eq', 1)
   })
