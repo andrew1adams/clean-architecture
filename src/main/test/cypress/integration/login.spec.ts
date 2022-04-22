@@ -1,6 +1,14 @@
 import * as faker from 'faker'
-import { mockHttpRequests } from '../support/mock-http-request'
+import { mockLoginRequest } from '../support/mock-login-request'
 import { testFormHelper } from '../support/test-form-helper'
+
+const simulateValidSubmit = (): void => {
+  cy.getByTestId('email-input').focus().type(faker.internet.email())
+  testFormHelper.testStatusField('email')
+  cy.getByTestId('password-input').focus().type(faker.internet.password())
+  testFormHelper.testStatusField('password')
+  cy.getByTestId('submit-btn').click()
+}
 
 describe('Login', () => {
   beforeEach(() => {
@@ -26,19 +34,14 @@ describe('Login', () => {
   })
 
   it('Should present valid state if form is valid', () => {
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    testFormHelper.testStatusField('email')
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
-    testFormHelper.testStatusField('password')
+    simulateValidSubmit()
     cy.getByTestId('submit-btn').should('not.be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
 
   it('Should present InvalidCredentialsError', () => {
-    mockHttpRequests.invalidCredentialsError()
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
-    cy.getByTestId('submit-btn').click()
+    mockLoginRequest.invalidCredentialsError()
+    simulateValidSubmit()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(401)
       expect(XMLHttpRequest.response.body).haveOwnProperty('error')
@@ -49,10 +52,8 @@ describe('Login', () => {
 
   it('Should present UnexpectedError', () => {
     const statusCode = faker.helpers.randomize([400, 404, 500])
-    mockHttpRequests.unexpectedError(statusCode)
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
-    cy.getByTestId('submit-btn').click()
+    mockLoginRequest.unexpectedError(statusCode)
+    simulateValidSubmit()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(statusCode)
       expect(XMLHttpRequest.response.body).haveOwnProperty('error')
@@ -64,10 +65,8 @@ describe('Login', () => {
   })
 
   it('Should present UnexpectedError if invalid data is returned', () => {
-    mockHttpRequests.invalidData()
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(faker.internet.password())
-    cy.getByTestId('submit-btn').click()
+    mockLoginRequest.invalidData()
+    simulateValidSubmit()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
       expect(XMLHttpRequest.response.body).haveOwnProperty('invalidData')
@@ -77,9 +76,8 @@ describe('Login', () => {
   })
 
   it('Should present SaveAccessToken if valid credentials are provided', () => {
-    mockHttpRequests.successRequest()
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    cy.getByTestId('password-input').focus().type(`${faker.internet.password()}{enter}`)
+    mockLoginRequest.successRequest()
+    simulateValidSubmit()
     cy.wait('@login').then(XMLHttpRequest => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
       expect(XMLHttpRequest.response.body).haveOwnProperty('accessToken')
@@ -91,7 +89,7 @@ describe('Login', () => {
   })
 
   it('Should prevents multiple submits', () => {
-    mockHttpRequests.successRequest()
+    mockLoginRequest.successRequest()
     cy.getByTestId('email-input').focus().type(faker.internet.email())
     cy.getByTestId('password-input').focus().type(faker.internet.password())
     cy.getByTestId('submit-btn').dblclick()
@@ -99,7 +97,7 @@ describe('Login', () => {
   })
 
   it('Should not call submit if form is invalid', () => {
-    mockHttpRequests.successRequest()
+    mockLoginRequest.successRequest()
     cy.getByTestId('email-input').focus().type(faker.internet.email())
     cy.getByTestId('password-input').focus().type(faker.random.alphaNumeric(4))
     cy.getByTestId('submit-btn').click({ force: true })

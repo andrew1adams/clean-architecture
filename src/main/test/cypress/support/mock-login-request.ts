@@ -38,11 +38,11 @@ const invalidData = (): void => {
   mockSuccess('login', 'POST', { invalidData: faker.random.uuid() })
 }
 
-const mockHttpRequests = {
+const mockLoginRequest = {
   invalidCredentialsError,
   unexpectedError,
   successRequest,
   invalidData
 }
 
-export { mockHttpRequests }
+export { mockLoginRequest }
