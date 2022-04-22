@@ -1,4 +1,5 @@
-import { HttpGetClient } from '@/data/protocols'
+import { HttpGetClient, HttpStatusCode } from '@/data/protocols'
+import { UnexpectedError } from '@/domain/error'
 
 class RemoteLoadSurveyList {
   private readonly url: string
@@ -10,7 +11,14 @@ class RemoteLoadSurveyList {
   }
 
   async load(): Promise<void> {
-    await this.httpGetClient.get({ url: this.url })
+    const httpResponse = await this.httpGetClient.get({ url: this.url })
+
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok:
+        break
+      default:
+        throw new UnexpectedError()
+    }
   }
 }
 

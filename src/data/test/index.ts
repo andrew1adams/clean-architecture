@@ -1,5 +1,5 @@
-export * from './http/mock-http-client'
-export * from './http/mock-http-post'
-export * from './http/mock-http-get'
+export * from './http/mock-http-post-client'
+export * from './http/mock-http-post-request'
+export * from './http/mock-http-get-client'
 
 export * from './cache/mock-set-storage'
