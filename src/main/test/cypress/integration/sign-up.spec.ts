@@ -1,5 +1,19 @@
 import { testFormHelper } from '../support/test-form-helper'
 import * as faker from 'faker'
+import { mockSignUpRequest } from '../support/mock-sign-up-request'
+
+const simulateValidSubmit = (): void => {
+  const password = faker.internet.password()
+  cy.getByTestId('name-input').focus().type(faker.name.findName())
+  testFormHelper.testStatusField('name')
+  cy.getByTestId('email-input').focus().type(faker.internet.email())
+  testFormHelper.testStatusField('email')
+  cy.getByTestId('password-input').focus().type(password)
+  testFormHelper.testStatusField('password')
+  cy.getByTestId('passwordConfirmation-input').focus().type(password)
+  testFormHelper.testStatusField('passwordConfirmation')
+  cy.getByTestId('submit-btn').click()
+}
 
 describe('Login', () => {
   beforeEach(() => {
@@ -33,16 +47,19 @@ describe('Login', () => {
   })
 
   it('Should present valid state if form is valid', () => {
-    const password = faker.internet.password()
-    cy.getByTestId('name-input').focus().type(faker.name.findName())
-    testFormHelper.testStatusField('name')
-    cy.getByTestId('email-input').focus().type(faker.internet.email())
-    testFormHelper.testStatusField('email')
-    cy.getByTestId('password-input').focus().type(password)
-    testFormHelper.testStatusField('password')
-    cy.getByTestId('passwordConfirmation-input').focus().type(password)
-    testFormHelper.testStatusField('passwordConfirmation')
+    simulateValidSubmit()
     cy.getByTestId('submit-btn').should('not.be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
+  })
+
+  it('Should present EmailInUseError', () => {
+    mockSignUpRequest.emailInUseError()
+    simulateValidSubmit()
+    cy.wait('@signup').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(403)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('error')
+    })
+    testFormHelper.testExpectedError('E-mail is already being used')
+    testFormHelper.testUrl('/sign-up')
   })
 })
