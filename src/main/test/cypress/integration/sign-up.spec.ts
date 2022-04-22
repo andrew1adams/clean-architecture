@@ -87,4 +87,17 @@ describe('SignUp', () => {
     testFormHelper.testExpectedError('Something was wrong, try again later.')
     testFormHelper.testUrl('/sign-up')
   })
+
+  it('Should present SaveAccessToken if valid credentials are provided', () => {
+    mockSignUpRequest.successRequest()
+    simulateValidSubmit()
+    cy.wait('@signup').then(XMLHttpRequest => {
+      expect(XMLHttpRequest.response.statusCode).to.eq(200)
+      expect(XMLHttpRequest.response.body).haveOwnProperty('accessToken')
+    })
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
+    testFormHelper.testUrl()
+    testFormHelper.testLocalSTorageItem('accessToken')
+  })
 })

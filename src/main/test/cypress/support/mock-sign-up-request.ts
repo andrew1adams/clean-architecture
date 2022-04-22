@@ -33,10 +33,14 @@ const unexpectedError = (statusCode: number): void => {
   mockUnexpectedError('signup', 'POST', statusCode)
 }
 
+const successRequest = (): void => {
+  mockSuccess('signup', 'POST', { accessToken: faker.random.uuid() })
+}
+
 const invalidData = (): void => {
   mockSuccess('signup', 'POST', { invalidData: faker.random.uuid() })
 }
 
-const mockSignUpRequest = { emailInUseError, unexpectedError, invalidData }
+const mockSignUpRequest = { emailInUseError, unexpectedError, invalidData, successRequest }
 
 export { mockSignUpRequest }
