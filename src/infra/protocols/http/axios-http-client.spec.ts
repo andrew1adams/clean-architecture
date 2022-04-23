@@ -1,4 +1,4 @@
-import { mockPostRequest } from '@/data/test'
+import { mockGetRequest, mockPostRequest } from '@/data/test'
 import { AxiosHttpClient } from '@/infra/protocols'
 import { mockAxios, mockHttpResponse } from '@/infra/test'
 import axios from 'axios'
@@ -22,7 +22,7 @@ const SystemUnderTestCreator = (): SutTypes => {
 
 describe('Axios Http Client', () => {
   describe('Post Method', () => {
-    test('Should call axios.post post with correct values', async () => {
+    test('Should call axios.post  with correct values', async () => {
       const request = mockPostRequest()
       const { sut, mockedAxios } = SystemUnderTestCreator()
       await sut.post(request)
@@ -42,6 +42,14 @@ describe('Axios Http Client', () => {
       })
       const httpResponse = sut.post(mockPostRequest())
       expect(httpResponse).toEqual(mockedAxios.post.mock.results[0].value)
+    })
+  })
+  describe('Get Method', () => {
+    test('Should call axios.get with correct values', async () => {
+      const request = mockGetRequest()
+      const { sut, mockedAxios } = SystemUnderTestCreator()
+      await sut.get(request)
+      expect(mockedAxios.get).toHaveBeenCalledWith(request.url)
     })
   })
 })
