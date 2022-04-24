@@ -22,7 +22,7 @@ const Input: React.FC<Props> = (props: Props) => {
     })
   }
 
-  const getStatus = (): string => (errorStatus ? `${status} ${error}` : `${status} ${success}`)
+  const getStatus = (): string => (errorStatus ? `${error}` : `${success}`)
 
   return (
     <div className={inputWrapper}>
@@ -37,7 +37,11 @@ const Input: React.FC<Props> = (props: Props) => {
         onChange={handleChange}
       />
       <label htmlFor={props.name}>{props.placeholder}</label>
-      <span title={errorStatus} data-testid={`${props.name}-status`} className={getStatus()} />
+      <span
+        title={errorStatus}
+        data-testid={`${props.name}-status`}
+        className={`${status} ${getStatus()}`}
+      />
     </div>
   )
 }

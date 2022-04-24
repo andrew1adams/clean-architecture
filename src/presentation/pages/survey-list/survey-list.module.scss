@@ -83,7 +83,6 @@
         flex-basis: 48%;
         margin-bottom: 16px;
         box-shadow: 0px 1px 3px -1px $black;
-        overflow: hidden;
 
         .surveyContent {
           display: flex;
@@ -96,6 +95,28 @@
             rgba($primaryLight, 0.2) 54px,
             $white 54px
           );
+          position: relative;
+          border-radius: 8px 8px 0 0;
+
+          .iconWrapper {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 1px 3px -1px $black;
+
+            &.red {
+              background-color: $error;
+            }
+
+            &.green {
+              background-color: $success;
+            }
+          }
 
           time {
             display: flex;
@@ -140,6 +161,7 @@
           text-transform: lowercase;
           text-align: center;
           cursor: pointer;
+          border-radius: 0 0 8px 8px;
 
           &:hover {
             background: $primaryDark;
