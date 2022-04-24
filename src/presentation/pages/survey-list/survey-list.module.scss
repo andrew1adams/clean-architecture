@@ -7,49 +7,6 @@
   min-height: 100vh;
   background-color: $disabledBackground;
 
-  .headerWrapper {
-    display: flex;
-    background-color: $primary;
-    border-top: 24px solid $primaryDark;
-    justify-content: center;
-
-    .headerContent {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      max-width: 800px;
-      flex-grow: 1;
-      padding: 16px 32px;
-      align-items: center;
-
-      img {
-        width: 60px;
-      }
-
-      .logoutWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 8px;
-        align-items: end;
-        color: $white;
-
-        span {
-          font-size: 16px;
-        }
-
-        a {
-          color: $white;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-  }
-
   .contentWrapper {
     display: flex;
     align-self: center;
