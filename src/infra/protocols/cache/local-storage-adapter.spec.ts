@@ -9,11 +9,11 @@ describe('LocalStorageAdapter', () => {
     localStorage.clear()
   })
 
-  test('Should call LocalStorage with correct values', async () => {
+  test('Should call LocalStorage with correct values', () => {
     const key = faker.random.word()
     const value = faker.random.word()
     const sut = SystemUnderTestCreator()
-    await sut.set(key, value)
+    sut.set(key, value)
 
     expect(localStorage.setItem).toHaveBeenCalledWith(key, value)
   })
