@@ -1,7 +1,7 @@
 import { LoginValidationCreator } from '@/main/factories'
 import { ValidationBuilder, ValidationComposite } from '@/validation/validators'
 
-describe('Login Validation Factory', () => {
+describe('LoginValidationFactory', () => {
   test('Should make ValidationComposite with correct validations', () => {
     const composite = LoginValidationCreator()
     expect(composite).toEqual(

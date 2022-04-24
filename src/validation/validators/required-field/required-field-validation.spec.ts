@@ -5,7 +5,7 @@ import faker from 'faker'
 const SystemUnderTestCreator = (field: string): RequiredFieldValidation =>
   new RequiredFieldValidation(field)
 
-describe('Required Field Validation', () => {
+describe('RequiredFieldValidation', () => {
   test('Should return error if field is empty', () => {
     const field = faker.random.word()
     const sut = SystemUnderTestCreator(field)

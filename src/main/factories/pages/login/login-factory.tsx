@@ -3,14 +3,14 @@ import { Login } from '@/presentation/pages'
 import {
   RemoteAuthenticationCreator,
   LoginValidationCreator,
-  LocalSaveAccessTokenCreator
+  LocalUpdateCurrentAccountCreator
 } from '@/main/factories'
 
 const LoginComponent: React.FC = () => (
   <Login
     authentication={RemoteAuthenticationCreator()}
     validation={LoginValidationCreator()}
-    saveAccessToken={LocalSaveAccessTokenCreator()}
+    updateCurrentAccount={LocalUpdateCurrentAccountCreator()}
   />
 )
 

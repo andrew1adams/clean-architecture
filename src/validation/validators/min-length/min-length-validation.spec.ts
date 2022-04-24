@@ -5,7 +5,7 @@ import faker from 'faker'
 const SystemUnderTestCreator = (field: string, minLength: number = 5): MinLengthValidation =>
   new MinLengthValidation(field, minLength)
 
-describe('Min Length Validation', () => {
+describe('MinLengthValidation', () => {
   test('Should return error if value is invalid', () => {
     const field = faker.random.word()
     const sut = SystemUnderTestCreator(field)

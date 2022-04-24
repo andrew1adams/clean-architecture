@@ -18,7 +18,7 @@ const SystemUnderTestCreator = (field: string): SutTypes => {
   }
 }
 
-describe('Validation Composite', () => {
+describe('ValidationComposite', () => {
   test('Should return error if any validation fails', () => {
     const field = faker.random.word()
     const { sut, fieldValidationsSpy } = SystemUnderTestCreator(field)

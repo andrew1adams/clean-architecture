@@ -5,7 +5,7 @@ import faker from 'faker'
 const SystemUnderTestCreator = (field: string, fieldToCompare: string): CompareFieldsValidation =>
   new CompareFieldsValidation(field, fieldToCompare)
 
-describe('Compare Fields Validation', () => {
+describe('CompareFieldsValidation', () => {
   test('Should return error if compare is invalid', () => {
     const field = faker.random.word()
     const fieldToCompare = faker.random.word()

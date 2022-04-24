@@ -4,7 +4,7 @@ import { LocalStorageAdapter } from '@/infra/protocols'
 
 const SystemUnderTestCreator = (): LocalStorageAdapter => new LocalStorageAdapter()
 
-describe('Local Storage Adapter', () => {
+describe('LocalStorageAdapter', () => {
   beforeEach(() => {
     localStorage.clear()
   })

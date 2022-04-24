@@ -1,4 +1,4 @@
-import { Authentication, SaveAccessToken } from '@/domain/usecases'
+import { Authentication, UpdateCurrentAccount } from '@/domain/usecases'
 import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
@@ -11,13 +11,13 @@ const { loginWrapper, form, link } = styles
 type LoginProps = {
   validation: Validation
   authentication: Authentication
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
 const Login: React.FC<LoginProps> = ({
   validation,
   authentication,
-  saveAccessToken
+  updateCurrentAccount
 }: LoginProps) => {
   const navigate = useNavigate()
 
@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({
         password: state.password
       })
 
-      await saveAccessToken.save(account.accessToken)
+      await updateCurrentAccount.save(account)
       navigate('/')
     } catch (err) {
       setState({

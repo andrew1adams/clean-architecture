@@ -32,7 +32,7 @@ const unexpectedError = (statusCode: number): void => {
   mockUnexpectedError('login', 'POST', statusCode)
 }
 const successRequest = (): void => {
-  mockSuccess('login', 'POST', { accessToken: faker.random.uuid() })
+  mockSuccess('login', 'POST', { accessToken: faker.random.uuid(), name: faker.name.findName() })
 }
 const invalidData = (): void => {
   mockSuccess('login', 'POST', { invalidData: faker.random.uuid() })

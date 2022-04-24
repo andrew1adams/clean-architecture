@@ -20,9 +20,9 @@ const SystemUnderTestCreator = (): SutTypes => {
   }
 }
 
-describe('Axios Http Client', () => {
+describe('AxiosHttpClient', () => {
   describe('Post Method', () => {
-    test('Should call axios.post  with correct values', async () => {
+    test('Should call axios.post with correct values', async () => {
       const request = mockPostRequest()
       const { sut, mockedAxios } = SystemUnderTestCreator()
       await sut.post(request)

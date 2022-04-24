@@ -21,7 +21,7 @@ const SystemUnderTestCreator = (url: string = faker.internet.url()): SutTypes =>
   }
 }
 
-describe('Remote Load Survey List', () => {
+describe('RemoteLoadSurveyList', () => {
   test('Should call HttpGetClient with correct url', async () => {
     const url = faker.internet.url()
     const { sut, httpGetClientSpy } = SystemUnderTestCreator(url)

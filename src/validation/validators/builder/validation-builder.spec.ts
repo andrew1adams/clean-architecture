@@ -7,7 +7,7 @@ import {
 } from '@/validation/validators'
 import faker from 'faker'
 
-describe('Validation Builder', () => {
+describe('ValidationBuilder', () => {
   test('Should return RequiredFieldValidation', () => {
     const field = faker.random.word()
     const validations = ValidationBuilder.field(field).required().build()

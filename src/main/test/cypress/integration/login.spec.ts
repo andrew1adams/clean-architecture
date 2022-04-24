@@ -79,7 +79,7 @@ describe('Login', () => {
     testFormHelper.testUrl('/login')
   })
 
-  it('Should present SaveAccessToken if valid credentials are provided', () => {
+  it('Should present UpdateCurrentAccount if valid credentials are provided', () => {
     mockLoginRequest.successRequest()
     simulateValidSubmit()
     cy.wait('@login').then(XMLHttpRequest => {
@@ -89,7 +89,7 @@ describe('Login', () => {
     cy.getByTestId('main-error').should('not.exist')
     cy.getByTestId('spinner').should('not.exist')
     testFormHelper.testUrl()
-    testFormHelper.testLocalSTorageItem('accessToken')
+    testFormHelper.testLocalSTorageItem('account')
   })
 
   it('Should prevents multiple submits', () => {

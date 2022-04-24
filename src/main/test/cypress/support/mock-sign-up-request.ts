@@ -34,7 +34,7 @@ const unexpectedError = (statusCode: number): void => {
 }
 
 const successRequest = (): void => {
-  mockSuccess('signup', 'POST', { accessToken: faker.random.uuid() })
+  mockSuccess('signup', 'POST', { accessToken: faker.random.uuid(), name: faker.name.findName() })
 }
 
 const invalidData = (): void => {

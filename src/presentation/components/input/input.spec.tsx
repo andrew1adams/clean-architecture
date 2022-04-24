@@ -11,7 +11,7 @@ const SystemUnderTestCreator = (field: string): RenderResult =>
     </LoginFormContext.Provider>
   )
 
-describe('Input Component', () => {
+describe('InputComponent', () => {
   test('Should begin with readonly', () => {
     const field = faker.random.word()
     const sut = SystemUnderTestCreator(field)

@@ -4,7 +4,7 @@ import faker from 'faker'
 
 const SystemUnderTestCreator = (field: string): EmailValidation => new EmailValidation(field)
 
-describe('Email Validation', () => {
+describe('EmailValidation', () => {
   test('Should return error if email is invalid', () => {
     const field = faker.random.word()
     const sut = SystemUnderTestCreator(field)

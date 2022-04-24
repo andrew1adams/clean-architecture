@@ -4,7 +4,7 @@ import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-libr
 import {
   ValidationStub,
   AuthenticationSpy,
-  SaveAccessTokenMock,
+  UpdateCurrentAccountMock,
   testChildCount,
   testButtonIsDisabled,
   testStatusField,
@@ -21,7 +21,7 @@ type SutTypes = {
   sut: RenderResult
   validationStub: ValidationStub
   authenticationSpy: AuthenticationSpy
-  saveAccessTokenMock: SaveAccessTokenMock
+  updateCurrentAccount: UpdateCurrentAccountMock
 }
 
 type SutParams = {
@@ -36,14 +36,14 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
 
   const authenticationSpy = new AuthenticationSpy()
 
-  const saveAccessTokenMock = new SaveAccessTokenMock()
+  const updateCurrentAccount = new UpdateCurrentAccountMock()
 
   const sut = render(
     <Router navigator={history} location='/login'>
       <Login
         validation={validationStub}
         authentication={authenticationSpy}
-        saveAccessToken={saveAccessTokenMock}
+        updateCurrentAccount={updateCurrentAccount}
       />
     </Router>
   )
@@ -52,7 +52,7 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
     sut,
     validationStub,
     authenticationSpy,
-    saveAccessTokenMock
+    updateCurrentAccount
   }
 }
 
@@ -174,22 +174,22 @@ describe('Login', () => {
     await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
   })
 
-  test('Should call SaveAccessToken on success', async () => {
-    const { sut, authenticationSpy, saveAccessTokenMock } = SystemUnderTestCreator()
+  test('Should call UpdateCurrentAccount on success', async () => {
+    const { sut, authenticationSpy, updateCurrentAccount } = SystemUnderTestCreator()
 
     simulateValidSubmit(sut)
 
     await waitFor(() => {
-      expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
+      expect(updateCurrentAccount.account).toEqual(authenticationSpy.account)
     })
 
     expect(history.location.pathname).toBe('/')
   })
 
-  test('Should present error if SaveAccessToken fails', async () => {
-    const { sut, saveAccessTokenMock } = SystemUnderTestCreator()
+  test('Should present error if UpdateCurrentAccount fails', async () => {
+    const { sut, updateCurrentAccount } = SystemUnderTestCreator()
     const error = new InvalidCredentialsError()
-    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+    jest.spyOn(updateCurrentAccount, 'save').mockRejectedValueOnce(error)
     simulateValidSubmit(sut)
 
     testChildCount(sut, 'error-wrapper', 1)

@@ -21,7 +21,7 @@ const SystemUnderTestCreator = (url: string = faker.internet.url()): SutTypes =>
   }
 }
 
-describe('Remote Add Account', () => {
+describe('RemoteAddAccount', () => {
   test('Should call HttpPostClient with correct URL', async () => {
     const url = faker.internet.url()
     const { sut, httpPostClientSpy } = SystemUnderTestCreator(url)
