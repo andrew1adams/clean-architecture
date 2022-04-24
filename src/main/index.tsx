@@ -1,9 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router } from '@/presentation/router'
-import { LoginComponent, SignUpComponent } from '@/main/factories'
+import { Router } from '@/main/routes'
+import '@/presentation/styles/global.module.scss'
 
-ReactDOM.render(
-  <Router login={<LoginComponent />} signUp={<SignUpComponent />} />,
-  document.getElementById('main')
-)
+ReactDOM.render(<Router />, document.getElementById('main'))
