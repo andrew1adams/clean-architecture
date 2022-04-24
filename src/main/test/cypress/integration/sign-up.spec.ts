@@ -26,26 +26,26 @@ describe('SignUp', () => {
 
   it('Should load with correct initial state', () => {
     cy.getByTestId('name-input').should('be.empty').should('have.attr', 'readonly')
-    testFormHelper.testStatusField('name', 'Required Field')
+    testFormHelper.testStatusField('name', 'Campo obrigatório')
     cy.getByTestId('email-input').should('be.empty').should('have.attr', 'readonly')
-    testFormHelper.testStatusField('email', 'Required Field')
+    testFormHelper.testStatusField('email', 'Campo obrigatório')
     cy.getByTestId('password-input').should('be.empty').should('have.attr', 'readonly')
-    testFormHelper.testStatusField('password', 'Required Field')
+    testFormHelper.testStatusField('password', 'Campo obrigatório')
     cy.getByTestId('passwordConfirmation-input').should('be.empty').should('have.attr', 'readonly')
-    testFormHelper.testStatusField('passwordConfirmation', 'Required Field')
+    testFormHelper.testStatusField('passwordConfirmation', 'Campo obrigatório')
     cy.getByTestId('submit-btn').should('be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
 
   it('Should present error state if form is invalid', () => {
     cy.getByTestId('name-input').focus().type(faker.random.alphaNumeric(2))
-    testFormHelper.testStatusField('name', 'Invalid Field')
+    testFormHelper.testStatusField('name', 'Campo inválido')
     cy.getByTestId('email-input').focus().type(faker.random.word())
-    testFormHelper.testStatusField('email', 'Invalid Field')
+    testFormHelper.testStatusField('email', 'Campo inválido')
     cy.getByTestId('password-input').focus().type(faker.random.alphaNumeric(4))
-    testFormHelper.testStatusField('password', 'Invalid Field')
+    testFormHelper.testStatusField('password', 'Campo inválido')
     cy.getByTestId('passwordConfirmation-input').focus().type(faker.random.alphaNumeric(4))
-    testFormHelper.testStatusField('passwordConfirmation', 'Invalid Field')
+    testFormHelper.testStatusField('passwordConfirmation', 'Campo inválido')
     cy.getByTestId('submit-btn').should('be.disabled')
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
@@ -63,7 +63,7 @@ describe('SignUp', () => {
       expect(XMLHttpRequest.response.statusCode).to.eq(403)
       expect(XMLHttpRequest.response.body).haveOwnProperty('error')
     })
-    testFormHelper.testExpectedError('E-mail is already being used')
+    testFormHelper.testExpectedError('O e-mail já está em uso')
     testFormHelper.testUrl('/sign-up')
   })
 
@@ -78,7 +78,7 @@ describe('SignUp', () => {
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error')
       .should('exist')
-      .should('contain.text', 'Something was wrong, try again later.')
+      .should('contain.text', 'Algo de errado ocorreu, tente novamente mais tarde')
   })
 
   it('Should present UnexpectedError if invalid data is returned', () => {
@@ -88,7 +88,7 @@ describe('SignUp', () => {
       expect(XMLHttpRequest.response.statusCode).to.eq(200)
       expect(XMLHttpRequest.response.body).haveOwnProperty('invalidData')
     })
-    testFormHelper.testExpectedError('Something was wrong, try again later.')
+    testFormHelper.testExpectedError('Algo de errado ocorreu, tente novamente mais tarde')
     testFormHelper.testUrl('/sign-up')
   })
 

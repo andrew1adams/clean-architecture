@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './login.module.scss'
 
-const { login, form, link } = styles
+const { loginWrapper, form, link } = styles
 
 type LoginProps = {
   validation: Validation
@@ -74,18 +74,18 @@ const Login: React.FC<LoginProps> = ({
   }
 
   return (
-    <div className={login}>
+    <div className={loginWrapper}>
       <LoginHeader />
       <LoginFormContext.Provider value={{ state, setState }}>
         <form data-testid='login-form' className={form} onSubmit={handleSubmit}>
-          <h2>Login</h2>
-          <Input name='email' type='email' placeholder='Insert your email' />
-          <Input type='password' name='password' placeholder='Insert your password' />
+          <h2>Entrar</h2>
+          <Input name='email' type='email' placeholder='Digite seu e-mail' />
+          <Input type='password' name='password' placeholder='Digite sua senha' />
 
-          <SubmitButton text='Sign In' />
+          <SubmitButton text='Entrar' />
 
           <Link data-testid='sign-up-link' to='/sign-up' className={link}>
-            sign up
+            Criar conta
           </Link>
           <FormStatus />
         </form>
