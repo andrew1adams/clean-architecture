@@ -1,6 +1,6 @@
 @import '@/presentation/styles/colors.module.scss';
 
-.header {
+.headerWrapper {
   display: flex;
   flex-direction: column;
   border-top: 24px solid $primaryDark;
@@ -14,5 +14,11 @@
   h1 {
     color: $white;
     margin: 16px 0 32px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .headerWrapper {
+    border-top-width: 16px;
   }
 }

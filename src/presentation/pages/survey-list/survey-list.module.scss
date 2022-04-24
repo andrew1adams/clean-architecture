@@ -94,6 +94,7 @@
             font-size: 20px;
             margin: 24px;
             align-self: center;
+            flex-grow: 1;
           }
         }
 
@@ -109,6 +110,18 @@
           &:hover {
             background: $primaryDark;
           }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .surveyListWrapper {
+    .contentWrapper {
+      ul {
+        li {
+          flex-basis: 100%;
         }
       }
     }
