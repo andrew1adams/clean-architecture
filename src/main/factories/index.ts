@@ -8,7 +8,6 @@ export * from './cache/local-storage-adapter-factory'
 
 export * from './usecases/add-account/remote-add-account-factory'
 export * from './usecases/authentication/remote-authentication-factory'
-export * from './usecases/update-current-account/local-update-current-account-factory'
 
 export * from './usecases/validation/login-validation/login-validation-factory'
 export * from './usecases/validation/sign-up-validation/sign-up-validation-factory'
