@@ -1,0 +1,18 @@
+@import '@/presentation/styles/colors.module.scss';
+
+.iconWrapper {
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 1px 3px -1px $black;
+
+  &.red {
+    background-color: $error;
+  }
+
+  &.green {
+    background-color: $success;
+  }
+}
