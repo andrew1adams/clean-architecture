@@ -11,8 +11,8 @@ describe('Compare Fields Validation', () => {
     const fieldToCompare = faker.random.word()
     const sut = SystemUnderTestCreator(field, fieldToCompare)
     const error = sut.validate({
-      [field]: faker.random.word(),
-      [fieldToCompare]: faker.random.word()
+      [field]: faker.random.words(2),
+      [fieldToCompare]: faker.random.words(3)
     })
 
     expect(error).toEqual(new InvalidFieldError())
