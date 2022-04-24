@@ -1,6 +1,5 @@
-import { SetStorage } from '@/data/protocols'
 import { LocalStorageAdapter } from '@/infra/protocols'
 
-const LocalStorageAdapterCreator = (): SetStorage => new LocalStorageAdapter()
+const LocalStorageAdapterCreator = (): LocalStorageAdapter => new LocalStorageAdapter()
 
 export { LocalStorageAdapterCreator }
