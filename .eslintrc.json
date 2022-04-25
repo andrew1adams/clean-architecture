@@ -4,15 +4,8 @@
       "version": "detect"
     }
   },
-  "extends": [
-    "standard-with-typescript",
-    "plugin:react/recommended",
-    "plugin:cypress/recommended"
-  ],
-  "plugins": [
-    "react",
-    "cypress"
-  ],
+  "extends": ["standard-with-typescript", "plugin:react/recommended", "plugin:cypress/recommended"],
+  "plugins": ["react", "cypress"],
   "env": {
     "cypress/globals": true
   },
@@ -25,6 +18,7 @@
     "@typescript-eslint/space-before-function-paren": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "react/display-name": "off",
     "react/prop-types": "off",
     "react/jsx-uses-react": "error",

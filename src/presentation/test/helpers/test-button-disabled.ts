@@ -1,7 +1,7 @@
-import { RenderResult } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
-const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boolean): void => {
-  const btn = sut.getByTestId(testId) as HTMLButtonElement
+const testButtonIsDisabled = (testId: string, isDisabled: boolean): void => {
+  const btn = screen.getByTestId(testId) as HTMLButtonElement
   expect(btn.disabled).toBe(isDisabled)
 }
 

@@ -1,7 +1,7 @@
-import { RenderResult } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
-const testChildCount = (sut: RenderResult, testId: string, count: number): void => {
-  const element = sut.getByTestId(testId)
+const testChildCount = (testId: string, count: number): void => {
+  const element = screen.getByTestId(testId)
   expect(element.childElementCount).toBe(count)
 }
 

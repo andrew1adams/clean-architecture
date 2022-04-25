@@ -1,6 +1,6 @@
 import React from 'react'
 import { Login } from '@/presentation/pages'
-import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import {
   ValidationStub,
   AuthenticationSpy,
@@ -19,7 +19,6 @@ import { createMemoryHistory } from 'history'
 import { AccountModel } from '@/domain/models'
 
 type SutTypes = {
-  sut: RenderResult
   authenticationSpy: AuthenticationSpy
   setCurrentAccountMock: (account: AccountModel) => void
 }
@@ -38,7 +37,7 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
 
   const setCurrentAccountMock = jest.fn()
 
-  const sut = render(
+  render(
     <MainContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
       <Router navigator={history} location='/login'>
         <Login validation={validationStub} authentication={authenticationSpy} />
@@ -47,89 +46,85 @@ const SystemUnderTestCreator = (params?: SutParams): SutTypes => {
   )
 
   return {
-    sut,
     authenticationSpy,
     setCurrentAccountMock
   }
 }
 
 const simulateValidSubmit = (
-  sut: RenderResult,
   email: string = faker.internet.email(),
   password: string = faker.internet.password()
 ): void => {
-  populateField(sut, 'email', email)
-  populateField(sut, 'password', password)
+  populateField('email', email)
+  populateField('password', password)
 
-  const submitBtn = sut.getByTestId('submit-btn')
+  const submitBtn = screen.getByTestId('submit-btn')
   fireEvent.click(submitBtn)
 }
 
 describe('Login', () => {
-  afterEach(cleanup)
-
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
-    const { sut } = SystemUnderTestCreator({ validationError })
+    SystemUnderTestCreator({ validationError })
 
-    testChildCount(sut, 'error-wrapper', 0)
-    testButtonIsDisabled(sut, 'submit-btn', true)
-    testStatusField(sut, 'email', validationError)
-    testStatusField(sut, 'password', validationError)
+    testChildCount('error-wrapper', 0)
+    testButtonIsDisabled('submit-btn', true)
+    testStatusField('email', validationError)
+    testStatusField('password', validationError)
   })
 
   test('Should show email error if Validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = SystemUnderTestCreator({ validationError })
+    SystemUnderTestCreator({ validationError })
 
-    populateField(sut, 'email')
-    testStatusField(sut, 'email', validationError)
+    populateField('email')
+    testStatusField('email', validationError)
   })
 
   test('Should show password error if Validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = SystemUnderTestCreator({ validationError })
+    SystemUnderTestCreator({ validationError })
 
-    populateField(sut, 'password')
+    populateField('password')
 
-    testStatusField(sut, 'password', validationError)
+    testStatusField('password', validationError)
   })
 
   test('Should show valid email state if Validation succeeds', () => {
-    const { sut } = SystemUnderTestCreator()
-    populateField(sut, 'email')
+    SystemUnderTestCreator()
+    populateField('email')
 
-    testStatusField(sut, 'email')
+    testStatusField('email')
   })
 
   test('Should show valid password state if Validation succeeds', () => {
-    const { sut } = SystemUnderTestCreator()
-    populateField(sut, 'password')
+    SystemUnderTestCreator()
+    populateField('password')
 
-    testStatusField(sut, 'password')
+    testStatusField('password')
   })
 
   test('Should enable submit button if form is valid', () => {
-    const { sut } = SystemUnderTestCreator()
+    SystemUnderTestCreator()
 
-    populateField(sut, 'email')
-    populateField(sut, 'password')
-    testButtonIsDisabled(sut, 'submit-btn', false)
+    populateField('email')
+    populateField('password')
+    testButtonIsDisabled('submit-btn', false)
   })
 
   test('Should show spinner on submit', () => {
-    const { sut } = SystemUnderTestCreator()
+    SystemUnderTestCreator()
 
-    simulateValidSubmit(sut)
-    testElementAlreadyExists(sut, 'spinner')
+    simulateValidSubmit()
+    testElementAlreadyExists('spinner')
   })
 
   test('Should call Authentication with correct values', () => {
-    const { sut, authenticationSpy } = SystemUnderTestCreator()
+    const { authenticationSpy } = SystemUnderTestCreator()
     const email = faker.internet.email()
     const password = faker.internet.password()
 
-    simulateValidSubmit(sut, email, password)
+    simulateValidSubmit(email, password)
 
     expect(authenticationSpy.params).toEqual({
       email,
@@ -138,43 +133,43 @@ describe('Login', () => {
   })
 
   test('Should call Authentication only once', () => {
-    const { sut, authenticationSpy } = SystemUnderTestCreator()
+    const { authenticationSpy } = SystemUnderTestCreator()
 
-    simulateValidSubmit(sut)
-    simulateValidSubmit(sut)
+    simulateValidSubmit()
+    simulateValidSubmit()
 
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
   test('Should not call Authentication if form is invalid', () => {
     const validationError = faker.random.words()
-    const { sut, authenticationSpy } = SystemUnderTestCreator({
+    const { authenticationSpy } = SystemUnderTestCreator({
       validationError
     })
 
-    populateField(sut, 'email')
+    populateField('email')
 
-    fireEvent.submit(sut.getByTestId('login-form'))
+    fireEvent.submit(screen.getByTestId('login-form'))
 
     expect(authenticationSpy.callsCount).toBe(0)
   })
 
   test('Should present error if Authentication fails', async () => {
-    const { sut, authenticationSpy } = SystemUnderTestCreator()
+    const { authenticationSpy } = SystemUnderTestCreator()
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
 
-    simulateValidSubmit(sut)
+    simulateValidSubmit()
 
-    testChildCount(sut, 'error-wrapper', 1)
+    testChildCount('error-wrapper', 1)
 
-    await waitFor(() => testElementTextToBeCompared(sut, 'main-error', error.message))
+    await waitFor(() => testElementTextToBeCompared('main-error', error.message))
   })
 
   test('Should call UpdateCurrentAccount on success', async () => {
-    const { sut, authenticationSpy, setCurrentAccountMock } = SystemUnderTestCreator()
+    const { authenticationSpy, setCurrentAccountMock } = SystemUnderTestCreator()
 
-    simulateValidSubmit(sut)
+    simulateValidSubmit()
 
     await waitFor(() => {
       expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.account)
@@ -184,9 +179,9 @@ describe('Login', () => {
   })
 
   test('Should go to sign up page', () => {
-    const { sut } = SystemUnderTestCreator()
+    SystemUnderTestCreator()
 
-    const signUp = sut.getByTestId('sign-up-link')
+    const signUp = screen.getByTestId('sign-up-link')
     fireEvent.click(signUp)
 
     expect(history.location.pathname).toBe('/sign-up')

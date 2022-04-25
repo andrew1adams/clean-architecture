@@ -1,7 +1,7 @@
-import { RenderResult } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
-const testElementAlreadyExists = (sut: RenderResult, testId: string): void => {
-  const element = sut.getByTestId(testId)
+const testElementAlreadyExists = (testId: string): void => {
+  const element = screen.getByTestId(testId)
   expect(element).toBeTruthy()
 }
 

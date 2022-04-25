@@ -1,11 +1,7 @@
-import { RenderResult } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
-const testStatusField = (
-  sut: RenderResult,
-  fieldName: string,
-  validationError: string = ''
-): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
+const testStatusField = (fieldName: string, validationError: string = ''): void => {
+  const fieldStatus = screen.getByTestId(`${fieldName}-status`)
   expect(fieldStatus.title).toBe(validationError)
   expect(fieldStatus.className).toContain(validationError ? 'error' : 'success')
 }

@@ -1,12 +1,8 @@
-import { fireEvent, RenderResult } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import faker from 'faker'
 
-const populateField = (
-  sut: RenderResult,
-  fieldName: string,
-  value: any = faker.random.word()
-): void => {
-  const element = sut.getByTestId(`${fieldName}-input`)
+const populateField = (fieldName: string, value: any = faker.random.word()): void => {
+  const element = screen.getByTestId(`${fieldName}-input`)
   fireEvent.input(element, { target: { value } })
 }
 
