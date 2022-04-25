@@ -20,4 +20,17 @@ describe('SurveyComponent', () => {
     expect(screen.getByTestId('survey-month')).toHaveTextContent('abr')
     expect(screen.getByTestId('survey-year')).toHaveTextContent('2022')
   })
+
+  test('Should render with correct values', () => {
+    const survey = Object.assign(mockSurvey(), {
+      didAnswer: false,
+      date: new Date('2020-09-03T00:00:00')
+    })
+    SystemUnderTestCreator(survey)
+    expect(screen.getByTestId('icon-status')).toHaveProperty('src', IconName.thumbDown)
+    expect(screen.getByTestId('survey-question')).toHaveTextContent(survey.question)
+    expect(screen.getByTestId('survey-day')).toHaveTextContent('03')
+    expect(screen.getByTestId('survey-month')).toHaveTextContent('set')
+    expect(screen.getByTestId('survey-year')).toHaveTextContent('2020')
+  })
 })
