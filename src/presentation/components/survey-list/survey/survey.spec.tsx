@@ -3,12 +3,17 @@ import { render, screen } from '@testing-library/react'
 import { Survey, IconName } from '@/presentation/components'
 import { mockSurvey } from '@/domain/test'
 
+const SystemUnderTestCreator = (survey = mockSurvey()): void => {
+  render(<Survey survey={survey} />)
+}
+
 describe('SurveyComponent', () => {
   test('Should render with correct values', () => {
-    const survey = mockSurvey()
-    survey.didAnswer = true
-    survey.date = new Date('2022-04-25T00:00:00')
-    render(<Survey survey={survey} />)
+    const survey = Object.assign(mockSurvey(), {
+      didAnswer: true,
+      date: new Date('2022-04-25T00:00:00')
+    })
+    SystemUnderTestCreator(survey)
     expect(screen.getByTestId('icon-status')).toHaveProperty('src', IconName.thumbUp)
     expect(screen.getByTestId('survey-question')).toHaveTextContent(survey.question)
     expect(screen.getByTestId('survey-day')).toHaveTextContent('25')
