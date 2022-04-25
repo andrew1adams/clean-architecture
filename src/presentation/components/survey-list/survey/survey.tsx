@@ -1,20 +1,31 @@
+import { SurveyModel } from '@/domain/models'
 import { Icon } from '@/presentation/components'
 import React from 'react'
 import styles from './survey.module.scss'
 
 const { surveyWrapper, surveyContent, day, month, year, iconWrapper } = styles
 
-const Survey: React.FC = () => {
+type Props = {
+  survey: SurveyModel
+}
+
+const Survey: React.FC<Props> = ({ survey }: Props) => {
   return (
     <li className={surveyWrapper}>
       <div className={surveyContent}>
-        <Icon iconName='thumbDown' className={iconWrapper} />
+        <Icon iconName='thumbUp' className={iconWrapper} />
         <time>
-          <span className={day}>20</span>
-          <span className={month}>04</span>
-          <span className={year}>2022</span>
+          <span className={day} data-testid='survey-day'>
+            {survey.date.getDate()}
+          </span>
+          <span className={month} data-testid='survey-month'>
+            {survey.date.toLocaleString('pt-BR', { month: 'short' }).replace('.', '')}
+          </span>
+          <span className={year} data-testid='survey-year'>
+            {survey.date.getFullYear()}
+          </span>
         </time>
-        <p>Qual é o seu framework web favorito?</p>
+        <p data-testid='survey-question'>{survey.question}</p>
       </div>
       <footer>Ver Resultado</footer>
     </li>

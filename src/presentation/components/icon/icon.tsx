@@ -18,9 +18,9 @@ const Icon: React.FC<Props> = ({ iconName, className }: Props) => {
 
   return (
     <div className={`${iconWrapper} ${getStatus()} ${className}`}>
-      <img src={IconName[iconName]} alt='Icon' />
+      <img data-testid='icon-status' src={IconName[iconName]} alt='Icon' />
     </div>
   )
 }
 
-export { Icon }
+export { Icon, IconName }

@@ -1,5 +1,5 @@
 import { LoadSurveyList } from '@/domain/usecases'
-import { Footer, Header, Survey, SurveySkeleton } from '@/presentation/components'
+import { Footer, Header, SurveySkeleton } from '@/presentation/components'
 import React, { useEffect } from 'react'
 import styles from './survey-list.module.scss'
 
@@ -20,7 +20,6 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <div className={contentWrapper}>
         <h2>Enquetes</h2>
         <ul>
-          <Survey />
           <SurveySkeleton />
         </ul>
       </div>
