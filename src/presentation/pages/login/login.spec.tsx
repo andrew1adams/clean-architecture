@@ -4,12 +4,8 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import {
   ValidationStub,
   AuthenticationSpy,
-  testChildCount,
-  testButtonIsDisabled,
   testStatusField,
-  populateField,
-  testElementAlreadyExists,
-  testElementTextToBeCompared
+  populateField
 } from '@/presentation/test'
 import { MainContext } from '@/presentation/contexts'
 import faker from 'faker'
@@ -67,8 +63,8 @@ describe('Login', () => {
     const validationError = faker.random.words()
     SystemUnderTestCreator({ validationError })
 
-    testChildCount('error-wrapper', 0)
-    testButtonIsDisabled('submit-btn', true)
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(0)
+    expect(screen.getByTestId('submit-btn')).toBeDisabled()
     testStatusField('email', validationError)
     testStatusField('password', validationError)
   })
@@ -109,14 +105,14 @@ describe('Login', () => {
 
     populateField('email')
     populateField('password')
-    testButtonIsDisabled('submit-btn', false)
+    expect(screen.getByTestId('submit-btn')).toBeEnabled()
   })
 
   test('Should show spinner on submit', () => {
     SystemUnderTestCreator()
 
     simulateValidSubmit()
-    testElementAlreadyExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   test('Should call Authentication with correct values', () => {
@@ -161,9 +157,9 @@ describe('Login', () => {
 
     simulateValidSubmit()
 
-    testChildCount('error-wrapper', 1)
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
 
-    await waitFor(() => testElementTextToBeCompared('main-error', error.message))
+    await waitFor(() => expect(screen.getByTestId('main-error')).toHaveTextContent(error.message))
   })
 
   test('Should call UpdateCurrentAccount on success', async () => {
