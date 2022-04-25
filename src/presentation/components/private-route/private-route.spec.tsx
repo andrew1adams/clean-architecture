@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { Outlet, Router } from 'react-router-dom'
 import { PrivateRoute } from '@/presentation/components'
 import { MainContext } from '@/presentation/contexts'
 import { AccountModel } from '@/domain/models'
@@ -16,7 +16,7 @@ const SystemUnderTestCreator = (account: AccountModel = mockAccountModel()): Sut
   render(
     <MainContext.Provider value={{ getCurrentAccount: () => account }}>
       <Router navigator={history} location='/'>
-        <PrivateRoute />
+        <PrivateRoute element={<Outlet />} />
       </Router>
     </MainContext.Provider>
   )
