@@ -1,4 +1,5 @@
 import * as faker from 'faker'
+
 import { mockLoginRequest } from '../support/mock-login-request'
 import { testFormHelper } from '../support/test-form-helper'
 

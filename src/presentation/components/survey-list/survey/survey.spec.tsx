@@ -1,7 +1,9 @@
 import React from 'react'
+
 import { render, screen } from '@testing-library/react'
-import { Survey, IconName } from '@/presentation/components'
+
 import { mockSurvey } from '@/domain/test'
+import { Survey, IconName } from '@/presentation/components'
 
 const SystemUnderTestCreator = (survey = mockSurvey()): void => {
   render(<Survey survey={survey} />)

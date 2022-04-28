@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
+
 import { SurveyModel } from '@/domain/models'
+import { SurveyContext } from '@/presentation/contexts'
+
 import { SurveySkeleton } from '../survey-skeleton/survey-skeleton'
 import { Survey } from '../survey/survey'
-import { SurveyContext } from '@/presentation/contexts'
 import styles from './survey-list.module.scss'
 
 const { listWrapper } = styles

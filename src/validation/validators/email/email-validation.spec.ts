@@ -1,6 +1,7 @@
-import { EmailValidation } from '@/validation/validators'
-import { InvalidFieldError } from '@/validation/errors'
 import faker from 'faker'
+
+import { InvalidFieldError } from '@/validation/errors'
+import { EmailValidation } from '@/validation/validators'
 
 const SystemUnderTestCreator = (field: string): EmailValidation => new EmailValidation(field)
 

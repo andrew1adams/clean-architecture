@@ -1,5 +1,6 @@
-import { SurveyModel } from '@/domain/models'
 import faker from 'faker'
+
+import { SurveyModel } from '@/domain/models'
 
 const mockSurvey = (): SurveyModel => ({
   id: faker.datatype.uuid(),

@@ -1,6 +1,7 @@
+import faker from 'faker'
+
 import { InvalidFieldError } from '@/validation/errors'
 import { MinLengthValidation } from '@/validation/validators'
-import faker from 'faker'
 
 const SystemUnderTestCreator = (field: string, minLength: number = 5): MinLengthValidation =>
   new MinLengthValidation(field, minLength)

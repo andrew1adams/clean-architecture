@@ -1,6 +1,7 @@
 import React from 'react'
-import { SignUp } from '@/presentation/pages'
+
 import { SignUpValidationCreator, RemoteAddAccountCreator } from '@/main/factories'
+import { SignUp } from '@/presentation/pages'
 
 const SignUpComponent: React.FC = () => (
   <SignUp addAccount={RemoteAddAccountCreator()} validation={SignUpValidationCreator()} />

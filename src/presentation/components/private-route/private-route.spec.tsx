@@ -1,11 +1,14 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Outlet, Router } from 'react-router-dom'
-import { PrivateRoute } from '@/presentation/components'
-import { MainContext } from '@/presentation/contexts'
+
+import { render } from '@testing-library/react'
+
+import { createMemoryHistory } from 'history'
+
 import { AccountModel } from '@/domain/models'
 import { mockAccountModel } from '@/domain/test'
+import { PrivateRoute } from '@/presentation/components'
+import { MainContext } from '@/presentation/contexts'
 
 type SutTypes = {
   history: ReturnType<typeof createMemoryHistory>

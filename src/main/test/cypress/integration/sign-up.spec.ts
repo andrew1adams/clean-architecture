@@ -1,6 +1,7 @@
-import { testFormHelper } from '../support/test-form-helper'
 import * as faker from 'faker'
+
 import { mockSignUpRequest } from '../support/mock-sign-up-request'
+import { testFormHelper } from '../support/test-form-helper'
 
 const populateFields = (): void => {
   const password = faker.internet.password()

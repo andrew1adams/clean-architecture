@@ -1,13 +1,16 @@
 import React from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
-import { SignUp } from '@/presentation/pages'
-import { testStatusField, ValidationStub, populateField, AddAccountSpy } from '@/presentation/test'
-import faker from 'faker'
-import { EmailInUseError } from '@/domain/error'
-import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
+
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+
+import faker from 'faker'
+import { createMemoryHistory } from 'history'
+
+import { EmailInUseError } from '@/domain/error'
 import { AccountModel } from '@/domain/models'
 import { MainContext } from '@/presentation/contexts'
+import { SignUp } from '@/presentation/pages'
+import { testStatusField, ValidationStub, populateField, AddAccountSpy } from '@/presentation/test'
 
 type SutTypes = {
   addAccountSpy: AddAccountSpy

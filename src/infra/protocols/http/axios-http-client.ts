@@ -1,3 +1,5 @@
+import axios, { AxiosResponse } from 'axios'
+
 import {
   HttpGetClient,
   HttpGetParams,
@@ -5,7 +7,6 @@ import {
   HttpPostParams,
   HttpResponse
 } from '@/data/protocols'
-import axios, { AxiosResponse } from 'axios'
 
 class AxiosHttpClient implements HttpPostClient, HttpGetClient {
   async post(params: HttpPostParams): Promise<HttpResponse> {

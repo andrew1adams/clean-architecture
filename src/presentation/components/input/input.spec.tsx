@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { fireEvent, render, RenderResult } from '@testing-library/react'
+
+import faker from 'faker'
+
 import { Input } from '@/presentation/components'
 import { LoginFormContext } from '@/presentation/contexts'
-import faker from 'faker'
 
 const SystemUnderTestCreator = (field: string): RenderResult =>
   render(

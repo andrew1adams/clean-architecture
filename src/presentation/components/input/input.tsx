@@ -1,5 +1,7 @@
-import { LoginFormContext } from '@/presentation/contexts'
 import React, { useContext } from 'react'
+
+import { LoginFormContext } from '@/presentation/contexts'
+
 import Styles from './input.module.scss'
 
 const { inputWrapper, status, error, success } = Styles

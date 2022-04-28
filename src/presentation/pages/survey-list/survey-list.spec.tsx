@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { render, screen, waitFor } from '@testing-library/react'
-import { SurveyList } from '@/presentation/pages'
-import { LoadSurveyList } from '@/domain/usecases'
+
+import { UnexpectedError } from '@/domain/error'
 import { SurveyModel } from '@/domain/models'
 import { mockSurveyList } from '@/domain/test'
-import { UnexpectedError } from '@/domain/error'
+import { LoadSurveyList } from '@/domain/usecases'
+import { SurveyList } from '@/presentation/pages'
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount: number = 0

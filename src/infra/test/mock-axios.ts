@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { mockHttpResponse } from '@/infra/test'
 
 const mockAxios = (): jest.Mocked<typeof axios> => {

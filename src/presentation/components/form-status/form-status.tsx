@@ -1,7 +1,9 @@
 import React, { useContext } from 'react'
+
 import { Spinner } from '@/presentation/components'
-import Styles from './form-status.module.scss'
 import { LoginFormContext } from '@/presentation/contexts'
+
+import Styles from './form-status.module.scss'
 
 const { errorWrapper, spinnerWrapper, error } = Styles
 

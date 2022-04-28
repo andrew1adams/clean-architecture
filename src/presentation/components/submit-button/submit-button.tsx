@@ -1,5 +1,6 @@
-import { LoginFormContext } from '@/presentation/contexts'
 import React, { useContext } from 'react'
+
+import { LoginFormContext } from '@/presentation/contexts'
 
 type Props = {
   text: string

@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+
 import Styles from './footer.module.scss'
 
 const { footer } = Styles

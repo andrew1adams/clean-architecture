@@ -1,4 +1,5 @@
 import React from 'react'
+
 import styles from './survey-skeleton.module.scss'
 
 const SurveySkeleton: React.FC = () => {

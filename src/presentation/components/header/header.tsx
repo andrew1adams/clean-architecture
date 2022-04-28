@@ -1,5 +1,7 @@
 import React, { memo } from 'react'
+
 import { Logo } from '@/presentation/components'
+
 import styles from './header.module.scss'
 
 const { headerWrapper, headerContent, logoutWrapper } = styles

@@ -1,9 +1,11 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
 import { AddAccount } from '@/domain/usecases'
 import { Footer, Input, LoginHeader, FormStatus, SubmitButton } from '@/presentation/components'
 import { LoginFormContext, MainContext } from '@/presentation/contexts'
 import { Validation } from '@/presentation/protocols'
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+
 import styles from './sign-up.module.scss'
 
 const { signUpWrapper, form, link } = styles

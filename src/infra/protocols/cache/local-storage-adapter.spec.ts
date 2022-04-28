@@ -1,7 +1,8 @@
 import faker from 'faker'
+
 import 'jest-localstorage-mock'
-import { LocalStorageAdapter } from '@/infra/protocols'
 import { AccountModel } from '@/domain/models'
+import { LocalStorageAdapter } from '@/infra/protocols'
 
 const SystemUnderTestCreator = (): LocalStorageAdapter => new LocalStorageAdapter()
 

@@ -1,6 +1,7 @@
 import React, { ReactElement, useContext } from 'react'
-import { MainContext } from '@/presentation/contexts'
 import { Navigate } from 'react-router-dom'
+
+import { MainContext } from '@/presentation/contexts'
 
 type Props = {
   element: ReactElement<any, any>

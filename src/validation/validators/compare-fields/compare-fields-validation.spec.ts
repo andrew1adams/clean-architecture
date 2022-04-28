@@ -1,6 +1,7 @@
+import faker from 'faker'
+
 import { InvalidFieldError } from '@/validation/errors'
 import { CompareFieldsValidation } from '@/validation/validators'
-import faker from 'faker'
 
 const SystemUnderTestCreator = (field: string, fieldToCompare: string): CompareFieldsValidation =>
   new CompareFieldsValidation(field, fieldToCompare)

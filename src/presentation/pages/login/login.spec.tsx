@@ -1,18 +1,21 @@
 import React from 'react'
-import { Login } from '@/presentation/pages'
+import { Router } from 'react-router-dom'
+
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+
+import faker from 'faker'
+import { createMemoryHistory } from 'history'
+
+import { InvalidCredentialsError } from '@/domain/error'
+import { AccountModel } from '@/domain/models'
+import { MainContext } from '@/presentation/contexts'
+import { Login } from '@/presentation/pages'
 import {
   ValidationStub,
   AuthenticationSpy,
   testStatusField,
   populateField
 } from '@/presentation/test'
-import { MainContext } from '@/presentation/contexts'
-import faker from 'faker'
-import { InvalidCredentialsError } from '@/domain/error'
-import { Router } from 'react-router-dom'
-import { createMemoryHistory } from 'history'
-import { AccountModel } from '@/domain/models'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy

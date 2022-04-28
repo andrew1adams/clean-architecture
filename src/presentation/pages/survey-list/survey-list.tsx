@@ -1,8 +1,10 @@
+import React, { useEffect } from 'react'
+
 import { SurveyModel } from '@/domain/models'
 import { LoadSurveyList } from '@/domain/usecases'
 import { Footer, Header, List, SurveyError } from '@/presentation/components'
 import { SurveyContext } from '@/presentation/contexts'
-import React, { useEffect } from 'react'
+
 import styles from './survey-list.module.scss'
 
 const { surveyListWrapper, contentWrapper } = styles

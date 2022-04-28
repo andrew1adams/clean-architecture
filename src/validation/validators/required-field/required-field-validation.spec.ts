@@ -1,6 +1,7 @@
+import faker from 'faker'
+
 import { RequiredFieldError } from '@/validation/errors'
 import { RequiredFieldValidation } from '@/validation/validators'
-import faker from 'faker'
 
 const SystemUnderTestCreator = (field: string): RequiredFieldValidation =>
   new RequiredFieldValidation(field)

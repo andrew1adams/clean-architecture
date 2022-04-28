@@ -1,6 +1,7 @@
 import React from 'react'
-import { Login } from '@/presentation/pages'
+
 import { RemoteAuthenticationCreator, LoginValidationCreator } from '@/main/factories'
+import { Login } from '@/presentation/pages'
 
 const LoginComponent: React.FC = () => (
   <Login authentication={RemoteAuthenticationCreator()} validation={LoginValidationCreator()} />

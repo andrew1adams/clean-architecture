@@ -1,6 +1,8 @@
+import React from 'react'
+
 import { SurveyModel } from '@/domain/models'
 import { Icon } from '@/presentation/components'
-import React from 'react'
+
 import styles from './survey.module.scss'
 
 const { surveyWrapper, surveyContent, day, month, year, iconWrapper } = styles
