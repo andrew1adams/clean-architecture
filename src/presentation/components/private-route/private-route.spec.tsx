@@ -1,7 +1,7 @@
 import React from 'react'
-import { Outlet, Router } from 'react-router-dom'
 
 import { render } from '@testing-library/react'
+import { Outlet, Router } from 'react-router-dom'
 
 import { createMemoryHistory } from 'history'
 

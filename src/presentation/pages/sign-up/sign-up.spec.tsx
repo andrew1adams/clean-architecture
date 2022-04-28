@@ -1,7 +1,7 @@
 import React from 'react'
-import { Router } from 'react-router-dom'
 
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { Router } from 'react-router-dom'
 
 import faker from 'faker'
 import { createMemoryHistory } from 'history'

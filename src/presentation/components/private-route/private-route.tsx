@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext } from 'react'
+
 import { Navigate } from 'react-router-dom'
 
 import { MainContext } from '@/presentation/contexts'
