@@ -4,6 +4,7 @@ import { SurveyList } from '@/presentation/pages'
 import { LoadSurveyList } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
 import { mockSurveyList } from '@/domain/test'
+import { UnexpectedError } from '@/domain/error'
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount: number = 0
@@ -20,8 +21,7 @@ type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
 }
 
-const SystemUnderTestCreator = (): SutTypes => {
-  const loadSurveyListSpy = new LoadSurveyListSpy()
+const SystemUnderTestCreator = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
 
   return {
@@ -33,7 +33,10 @@ describe('SurveyListcomponent', () => {
   test('Should present 6 empty items on start', async () => {
     SystemUnderTestCreator()
     const surveyList = screen.getByTestId('survey-list')
-    await waitFor(() => expect(surveyList.querySelectorAll('li:empty')).toHaveLength(6))
+    await waitFor(() => {
+      expect(surveyList.querySelectorAll('li:empty')).toHaveLength(6)
+      expect(screen.queryByTestId('error-wrapper')).not.toBeInTheDocument()
+    })
   })
 
   test('Should call LoadSurveyList', async () => {
@@ -44,6 +47,21 @@ describe('SurveyListcomponent', () => {
   test('Should render SurveyItems on success', async () => {
     SystemUnderTestCreator()
     const surveyList = screen.getByTestId('survey-list')
-    await waitFor(() => expect(surveyList.querySelectorAll('li.surveyWrapper')).toHaveLength(6))
+    await waitFor(() => {
+      expect(surveyList.querySelectorAll('li.surveyWrapper')).toHaveLength(6)
+      expect(screen.queryByTestId('error-wrapper')).not.toBeInTheDocument()
+    })
+  })
+
+  test('Should render Error on failure', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(loadSurveyListSpy, 'load').mockRejectedValueOnce(error)
+    SystemUnderTestCreator(loadSurveyListSpy)
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('error-wrapper')).toHaveTextContent(error.message)
+    })
   })
 })
