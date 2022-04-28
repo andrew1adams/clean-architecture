@@ -5,7 +5,7 @@
     }
   },
   "extends": ["standard-with-typescript", "plugin:react/recommended", "plugin:cypress/recommended"],
-  "plugins": ["react", "cypress"],
+  "plugins": ["react", "cypress", "import-helpers"],
   "env": {
     "cypress/globals": true
   },
@@ -23,6 +23,14 @@
     "react/display-name": "off",
     "react/prop-types": "off",
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": ["/^react/", "/react/", "module", "/^@/", ["parent", "sibling", "index"]],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
   }
 }
