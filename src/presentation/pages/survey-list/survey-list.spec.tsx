@@ -1,16 +1,18 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from '@/presentation/pages'
 import { LoadSurveyList } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
+import { mockSurveyList } from '@/domain/test'
 
 class LoadSurveyListSpy implements LoadSurveyList {
-  callsCount = 0
+  callsCount: number = 0
+  surveys: SurveyModel[] = mockSurveyList()
 
   async load(): Promise<SurveyModel[]> {
     this.callsCount++
 
-    return []
+    return this.surveys
   }
 }
 
@@ -28,14 +30,20 @@ const SystemUnderTestCreator = (): SutTypes => {
 }
 
 describe('SurveyListcomponent', () => {
-  test('Should present 6 empty items on start', () => {
+  test('Should present 6 empty items on start', async () => {
     SystemUnderTestCreator()
     const surveyList = screen.getByTestId('survey-list')
-    expect(surveyList.querySelectorAll('li:empty').length).toBe(6)
+    await waitFor(() => expect(surveyList.querySelectorAll('li:empty')).toHaveLength(6))
   })
 
-  test('Should call LoadSurveyList', () => {
+  test('Should call LoadSurveyList', async () => {
     const { loadSurveyListSpy } = SystemUnderTestCreator()
-    expect(loadSurveyListSpy.callsCount).toBe(1)
+    await waitFor(() => expect(loadSurveyListSpy.callsCount).toBe(1))
+  })
+
+  test('Should render SurveyItems on success', async () => {
+    SystemUnderTestCreator()
+    const surveyList = screen.getByTestId('survey-list')
+    await waitFor(() => expect(surveyList.querySelectorAll('li.surveyWrapper')).toHaveLength(6))
   })
 })
