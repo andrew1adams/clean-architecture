@@ -63,8 +63,9 @@ describe('RemoteLoadSurveyList', () => {
       statusCode: HttpStatusCode.ok,
       body: httpResult
     }
-    const account = await sut.load()
-    expect(account).toEqual(httpResult)
+
+    const surveyList = await sut.load()
+    expect(surveyList).toEqual(httpResult)
   })
 
   test('Should return an empty SurveyList if HttpGetClient returns 204', async () => {
@@ -72,7 +73,7 @@ describe('RemoteLoadSurveyList', () => {
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.noContent
     }
-    const account = await sut.load()
-    expect(account).toEqual([])
+    const surveyList = await sut.load()
+    expect(surveyList).toEqual([])
   })
 })
