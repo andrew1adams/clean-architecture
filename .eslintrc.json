@@ -28,7 +28,7 @@
       "warn",
       {
         "newlinesBetween": "always",
-        "groups": ["/^react/", "/react/", "module", "/^@/", ["parent", "sibling", "index"]],
+        "groups": ["/^react$/", "/react/", "module", "/^@/", ["parent", "sibling", "index"]],
         "alphabetize": { "order": "asc", "ignoreCase": true }
       }
     ]
