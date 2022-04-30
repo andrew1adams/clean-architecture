@@ -5,7 +5,7 @@ import { SurveyContext } from '@/presentation/contexts'
 
 import { SurveySkeleton } from '../survey-skeleton/survey-skeleton'
 import { Survey } from '../survey/survey'
-import styles from './survey-list.module.scss'
+import styles from './list.module.scss'
 
 const { listWrapper } = styles
 
