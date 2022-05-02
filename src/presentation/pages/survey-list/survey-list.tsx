@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { SurveyModel } from '@/domain/models'
-import { LoadSurveyList } from '@/domain/usecases'
+import { LoadSurveyList, LoadsurveyListModel } from '@/domain/usecases'
 import { Footer, Header, List, SurveyError } from '@/presentation/components'
 import { SurveyContext } from '@/presentation/contexts'
 
@@ -14,7 +13,7 @@ type Props = {
 }
 
 type StateProps = {
-  surveys: SurveyModel[]
+  surveys: LoadsurveyListModel[]
   error: string
   isReload: boolean
 }

@@ -1,7 +1,12 @@
-import { SurveyModel } from '@/domain/models'
-
-interface LoadSurveyList {
-  load: () => Promise<SurveyModel[]>
+type LoadsurveyListModel = {
+  id: string
+  question: string
+  date: Date
+  didAnswer: boolean
 }
 
-export { LoadSurveyList }
+interface LoadSurveyList {
+  load: () => Promise<LoadsurveyListModel[]>
+}
+
+export { LoadSurveyList, LoadsurveyListModel }

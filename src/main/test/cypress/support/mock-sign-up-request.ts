@@ -34,11 +34,11 @@ const unexpectedError = (statusCode: number): void => {
 }
 
 const successRequest = (): void => {
-  mockSuccess('signup', 'POST', { accessToken: faker.random.uuid(), name: faker.name.findName() })
+  mockSuccess('signup', 'POST', { accessToken: faker.datatype.uuid(), name: faker.name.findName() })
 }
 
 const invalidData = (): void => {
-  mockSuccess('signup', 'POST', { invalidData: faker.random.uuid() })
+  mockSuccess('signup', 'POST', { invalidData: faker.datatype.uuid() })
 }
 
 const mockSignUpRequest = { emailInUseError, unexpectedError, invalidData, successRequest }

@@ -5,8 +5,10 @@ type AuthenticationParams = {
   password: string
 }
 
+type AuthenticationModel = AccountModel
+
 interface Authentication {
-  auth: (params: AuthenticationParams) => Promise<AccountModel>
+  auth: (params: AuthenticationParams) => Promise<AuthenticationModel>
 }
 
-export { Authentication, AuthenticationParams }
+export { Authentication, AuthenticationParams, AuthenticationModel }

@@ -7,7 +7,7 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 
 import { InvalidCredentialsError } from '@/domain/error'
-import { AccountModel } from '@/domain/models'
+import { AuthenticationParams } from '@/domain/usecases'
 import { MainContext } from '@/presentation/contexts'
 import { Login } from '@/presentation/pages'
 import {
@@ -19,7 +19,7 @@ import {
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock: (account: AccountModel) => void
+  setCurrentAccountMock: (account: AuthenticationParams) => void
 }
 
 type SutParams = {

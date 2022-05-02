@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SurveyModel } from '@/domain/models'
+import { LoadsurveyListModel } from '@/domain/usecases'
 import { Icon } from '@/presentation/components'
 
 import styles from './survey.module.scss'
@@ -8,7 +8,7 @@ import styles from './survey.module.scss'
 const { surveyWrapper, surveyContent, day, month, year, iconWrapper } = styles
 
 type Props = {
-  survey: SurveyModel
+  survey: LoadsurveyListModel
 }
 
 const Survey: React.FC<Props> = ({ survey }: Props) => {

@@ -5,8 +5,8 @@ import { Outlet, Router } from 'react-router-dom'
 
 import { createMemoryHistory } from 'history'
 
-import { AccountModel } from '@/domain/models'
-import { mockAccountModel } from '@/domain/test'
+import { mockAuthenticationModel } from '@/domain/test'
+import { AuthenticationModel } from '@/domain/usecases'
 import { PrivateRoute } from '@/presentation/components'
 import { MainContext } from '@/presentation/contexts'
 
@@ -14,7 +14,9 @@ type SutTypes = {
   history: ReturnType<typeof createMemoryHistory>
 }
 
-const SystemUnderTestCreator = (account: AccountModel = mockAccountModel()): SutTypes => {
+const SystemUnderTestCreator = (
+  account: AuthenticationModel = mockAuthenticationModel()
+): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/'] })
   render(
     <MainContext.Provider value={{ getCurrentAccount: () => account }}>

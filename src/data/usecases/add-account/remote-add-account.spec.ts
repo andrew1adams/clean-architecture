@@ -2,18 +2,17 @@ import faker from 'faker'
 
 import { HttpStatusCode } from '@/data/protocols'
 import { HttpPostClientSpy } from '@/data/test'
-import { RemoteAddAccount } from '@/data/usecases'
+import { RemoteAddAccount, RemoteAddAccountModel } from '@/data/usecases'
 import { EmailInUseError, UnexpectedError } from '@/domain/error'
-import { AccountModel } from '@/domain/models'
-import { mockAccountModel, mockAddAccount } from '@/domain/test'
+import { mockAddAccountModel, mockAddAccountParams } from '@/domain/test'
 
 type SutTypes = {
   sut: RemoteAddAccount
-  httpPostClientSpy: HttpPostClientSpy<AccountModel>
+  httpPostClientSpy: HttpPostClientSpy<RemoteAddAccountModel>
 }
 
 const SystemUnderTestCreator = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientSpy = new HttpPostClientSpy<AccountModel>()
+  const httpPostClientSpy = new HttpPostClientSpy<RemoteAddAccountModel>()
   const sut = new RemoteAddAccount(url, httpPostClientSpy)
 
   return {
@@ -26,25 +25,25 @@ describe('RemoteAddAccount', () => {
   test('Should call HttpPostClient with correct URL', async () => {
     const url = faker.internet.url()
     const { sut, httpPostClientSpy } = SystemUnderTestCreator(url)
-    await sut.add(mockAddAccount())
+    await sut.add(mockAddAccountParams())
     expect(httpPostClientSpy.url).toBe(url)
   })
 
   test('Should call HttpPostClient with correct body', async () => {
     const { sut, httpPostClientSpy } = SystemUnderTestCreator()
-    const mockAddAccountParams = mockAddAccount()
-    await sut.add(mockAddAccountParams)
-    expect(httpPostClientSpy.body).toEqual(mockAddAccountParams)
+    const mockAddAccount = mockAddAccountParams()
+    await sut.add(mockAddAccount)
+    expect(httpPostClientSpy.body).toEqual(mockAddAccount)
   })
 
-  test('Should return an AccountModel if HttpPostClient returns 200', async () => {
+  test('Should return an AddAccountModel if HttpPostClient returns 200', async () => {
     const { sut, httpPostClientSpy } = SystemUnderTestCreator()
-    const httpResult = mockAccountModel()
+    const httpResult = mockAddAccountModel()
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.ok,
       body: httpResult
     }
-    const account = await sut.add(mockAddAccount())
+    const account = await sut.add(mockAddAccountParams())
     expect(account).toEqual(httpResult)
   })
 
@@ -53,7 +52,7 @@ describe('RemoteAddAccount', () => {
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.badRequest
     }
-    const promise = sut.add(mockAddAccount())
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
@@ -62,7 +61,7 @@ describe('RemoteAddAccount', () => {
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.forbidden
     }
-    const promise = sut.add(mockAddAccount())
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow(new EmailInUseError())
   })
 
@@ -71,7 +70,7 @@ describe('RemoteAddAccount', () => {
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.notFound
     }
-    const promise = sut.add(mockAddAccount())
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
@@ -80,7 +79,7 @@ describe('RemoteAddAccount', () => {
     httpPostClientSpy.response = {
       statusCode: HttpStatusCode.serverError
     }
-    const promise = sut.add(mockAddAccount())
+    const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })

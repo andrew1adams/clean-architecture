@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { SurveyModel } from '@/domain/models'
+import { LoadsurveyListModel } from '@/domain/usecases'
 import { SurveyContext } from '@/presentation/contexts'
 
 import { SurveySkeleton } from '../survey-skeleton/survey-skeleton'
@@ -16,7 +16,9 @@ const List: React.FC = () => {
     <ul className={listWrapper} data-testid='survey-list'>
       {state.surveys.length
         ? (
-            state.surveys.map((survey: SurveyModel) => <Survey survey={survey} key={survey.id} />)
+            state.surveys.map((survey: LoadsurveyListModel) => (
+          <Survey survey={survey} key={survey.id} />
+            ))
           )
         : (
         <SurveySkeleton />

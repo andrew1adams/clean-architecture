@@ -7,14 +7,14 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 
 import { EmailInUseError } from '@/domain/error'
-import { AccountModel } from '@/domain/models'
+import { AddAccountParams } from '@/domain/usecases'
 import { MainContext } from '@/presentation/contexts'
 import { SignUp } from '@/presentation/pages'
 import { testStatusField, ValidationStub, populateField, AddAccountSpy } from '@/presentation/test'
 
 type SutTypes = {
   addAccountSpy: AddAccountSpy
-  setCurrentAccountMock: (account: AccountModel) => void
+  setCurrentAccountMock: (account: AddAccountParams) => void
 }
 
 type SutParams = {
