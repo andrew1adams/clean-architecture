@@ -2,6 +2,7 @@ import { HttpResponse } from '@/data/protocols'
 
 type HttpGetParams = {
   url: string
+  headers?: any
 }
 
 interface HttpGetClient<R = any> {
