@@ -1,25 +1,44 @@
-import { GetStorageSpy, mockGetRequest } from '@/data/test'
+import faker from 'faker'
+
+import { HttpGetParams } from '@/data/protocols'
+import { GetStorageSpy, HttpGetClientSpy, mockGetRequest } from '@/data/test'
 import { AuthorizeHttpGetClientDecorator } from '@/main/decorators'
 
 type SutTypes = {
   sut: AuthorizeHttpGetClientDecorator
   getStorageSpy: GetStorageSpy
+  httpGetClientSpy: HttpGetClientSpy
 }
 
 const SystemUnderTestCreator = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy()
-  const sut = new AuthorizeHttpGetClientDecorator(getStorageSpy)
+  const httpGetClientSpy = new HttpGetClientSpy()
+  const sut = new AuthorizeHttpGetClientDecorator(getStorageSpy, httpGetClientSpy)
 
   return {
     sut,
-    getStorageSpy
+    getStorageSpy,
+    httpGetClientSpy
   }
 }
 
 describe('AuthorizeHttpGetClientDecorator', () => {
-  test('Should call GetStorage with correct value', () => {
+  test('Should call GetStorage with correct value', async () => {
     const { sut, getStorageSpy } = SystemUnderTestCreator()
-    sut.get(mockGetRequest())
+    await sut.get(mockGetRequest())
     expect(getStorageSpy.key).toBe('account')
+  })
+
+  test('Should not add headers if GetStorage is invalid', async () => {
+    const { sut, httpGetClientSpy } = SystemUnderTestCreator()
+    const httpRequest: HttpGetParams = {
+      url: faker.internet.url(),
+      headers: {
+        'x-access-token': faker.datatype.uuid()
+      }
+    }
+    await sut.get(httpRequest)
+    expect(httpGetClientSpy.url).toBe(httpRequest.url)
+    expect(httpGetClientSpy.headers).toEqual(httpRequest.headers)
   })
 })
